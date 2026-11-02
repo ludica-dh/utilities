@@ -348,11 +348,109 @@ body { margin:0; padding:0; }
 .lab-gallery figure { border-radius:14px; }
 .lab-gallery figure>a:focus-visible { outline-offset:-4px; }
 @media(max-width:600px){.lab-gallery{margin-top:28px}.dh-pair-entry{padding:13px}.moment-bridge{padding:24px 0}}
-</style><!-- PERSONALIZZAZIONE: cerca DH_ECOSISTEMA per laboratori/progetti; IMMAGINI_GALLERIA per le foto. --></head><body>
+</style><!-- PERSONALIZZAZIONE: cerca DH_ECOSISTEMA per laboratori/progetti; IMMAGINI_GALLERIA per le foto. --><!--
+GUIDA_MODIFICA_ECOSISTEMA
+========================
+I livelli e le schede "Dove il racconto diventa pratica" usano gli stessi dati:
+non devi più aggiornare due elenchi separati. Le modifiche si vedono ricaricando la pagina.
+
+1. DOVE MODIFICARE I LIVELLI
+Cerca: const DH_ECOSISTEMA =
+I sette ID corrispondono a:
+ fonte = 01 Fonti; acquisizione = 02 Dematerializzazione;
+ trascrizione = 03 Trascrizione; codifica = 04 Codifica;
+ relazioni = 05 Luoghi e relazioni; visualizzazioni = 06 Visualizzazioni;
+ pubblico = 07 Coinvolgimento pubblico.
+Non rinominare questi ID: collegano la lista alla pila grafica interattiva.
+"voci" è l'elenco delle coppie mostrate all'interno di quel livello.
+
+2. MODIFICARE UN TITOLO, UN URL O IL TESTO DEL LINK
+Ogni laboratorio/progetto contiene:
+ "titolo": nome nella lista del livello;
+ "url": indirizzo completo della pagina;
+ "scheda": identificativo univoco della scheda nel catalogo sottostante;
+ "etichetta": facoltativo, testo completo del link del progetto;
+ "titoloScheda": facoltativo, titolo differente da usare nel catalogo;
+ "descrizione": facoltativo, descrizione della scheda nel catalogo.
+Esempio: il progetto dell'Almanacco ha
+ "titolo": "Almanacco della Stampa",
+ "url": "http://storia.dh.unica.it/almanaccostampasarda",
+ "etichetta": "Esplora l'Almanacco della Stampa",
+ "scheda": "almanacco-stampa".
+Sostituisci solo il testo tra le virgolette. Mantieni virgole e parentesi.
+Con "url": "" la voce resta visibile come testo, senza collegamento attivo.
+I collegamenti a siti si aprono in una nuova scheda; i rimandi ai livelli restano interni.
+
+3. TOGLIERE SOLO IL PROGETTO O SOLO IL LABORATORIO
+Scrivi null (senza virgolette) al posto dell'intero oggetto da togliere:
+ { "laboratorio": { "titolo": "HTR Lab", "url": "...", "scheda": "htr-lab" },
+   "progetto": null }
+mostra solo il laboratorio: anche la dicitura 02 / PROGETTO DI APPLICAZIONE scompare.
+Con "laboratorio": null e un progetto valido mostri soltanto il progetto.
+Per togliere una coppia intera elimina l'oggetto completo da "voci" e sistema la virgola.
+Con "voci": [] non ci sono voci in quel livello, ma il livello grafico rimane presente.
+La scheda sottostante scompare automaticamente se non è richiamata in altri livelli.
+
+4. AGGIUNGERE UN'ALTRA COPPIA NELLO STESSO LIVELLO
+Dentro "voci", dopo la coppia esistente aggiungi una virgola e un altro oggetto:
+ {
+   "laboratorio": {
+     "titolo": "Nuovo laboratorio",
+     "url": "https://example.org/laboratorio/",
+     "scheda": "nuovo-laboratorio"
+   },
+   "progetto": {
+     "titolo": "Nuovo progetto",
+     "url": "https://example.org/progetto/",
+     "scheda": "nuovo-progetto",
+     "etichetta": "Esplora il nuovo progetto"
+   }
+ }
+Usa identificativi "scheda" con lettere minuscole, numeri e trattini, senza spazi.
+Il catalogo crea automaticamente le nuove schede. Se uno stesso contenuto compare
+in più livelli, riutilizza la stessa "scheda": avrai una sola scheda con più rimandi.
+Mantieni coerenti titolo e URL nelle occorrenze della stessa "scheda"; la prima
+occorrenza stabilisce i contenuti della scheda riepilogativa.
+Non aggiungere un ottavo livello a DH_ECOSISTEMA per creare una voce: per un nuovo
+livello occorre aggiornare anche la scena SVG e il suo collegamento ai pannelli.
+
+5. SCHEDE AGGIUNTIVE NON ASSOCIATE A UN LIVELLO
+Cerca: const DH_ALTRI_RISCONTRI =
+Qui sono conservati gli altri progetti già presenti, ASMSA e Arcipelago Corsaro.
+Duplica/elimina un oggetto per aggiungerli/toglierli. Modifica titolo, descrizione e URL.
+Non inserire qui una scheda che vuoi far sparire eliminandola dai livelli: le voci
+in DH_ALTRI_RISCONTRI rimangono nel catalogo anche senza associazioni ai livelli.
+
+6. MODIFICARE I TESTI INTRODUTTIVI DI UN LIVELLO
+Cerca nel markup: data-dh-step="acquisizione" (o l'altro ID della tabella al punto 1).
+Il testo dentro summary/strong è il titolo visibile; il primo paragrafo dentro div
+è l'introduzione. Mantieni data-dh-step e id="dh-livello-..." per non rompere i rimandi.
+Le voci laboratorio/progetto sono generate dai dati: non modificarle direttamente
+nell'anteprima o nel markup del catalogo, che viene sincronizzato all'avvio.
+
+7. ALTRE PARTI DEL FILE
+LF_APPROFONDIMENTI configura gli URL delle schede della filiera LUDiCa (seconda parte).
+IMMAGINI_GALLERIA configura le foto: duplica/elimina una riga con url, alt e didascalia.
+Le istruzioni specifiche sono nei commenti accanto a ciascuno di questi elenchi.
+Prima di modificare salva una copia. Dopo la modifica ricarica la pagina e prova
+sia il livello sia la corrispondente scheda nel catalogo. Controlla le virgole.
+FINE_GUIDA_MODIFICA_ECOSISTEMA
+
+MAPPA METRO INTEGRATA: cerca const MAP_DATA per modificare nodi e linee.
+Il livello 05 usa Torri mediterranee e Colonizzazioni interne, in questo ordine.
+Il livello 06 Visualizzazioni usa il Parlamento: https://storia.dh.unica.it/122-2/.
+La mappa è isolata dal resto della pagina per non mescolare stili e identificativi.
+--><style>.dh-pair-entry:only-child{border:0}.dh-pair-entry .dh-entry-title{overflow-wrap:anywhere}</style><style>
+/* Settimo livello della pila e sezione metro autonoma in fondo alla pagina. */
+#momento-1 .dh-diagram .iso-scene{max-height:650px}
+.metro-section{margin:48px auto;background:transparent;scroll-margin-top:95px}
+.metro-section>header{margin-bottom:20px}
+#metro-ludica-host{display:block;width:100%;min-width:0}
+</style></head><body>
 <div class="dh-app"><a class="skip" href="#contenuto">Vai al contenuto</a>
 <header class="page-hero"><div class="wrap"><p class="mono">DH UNICA × LUDiCa / UN PERCORSO, DUE MOMENTI</p><h1>Dall’ecosistema al laboratorio.</h1><p>Prima gli ambienti, i metodi e i progetti di DH UniCa. Poi la filiera del LUDiCa, per esplorare come docenti, studenti e comunità costruiscono conoscenza insieme.</p></div></header>
-<nav class="moment-nav" aria-label="I due momenti della presentazione"><div class="wrap"><a href="#momento-1" data-moment-link="momento-1" aria-current="location">01 · DH UniCa / l’ecosistema</a><a href="#momento-2" data-moment-link="momento-2">02 · LUDiCa / esplora la filiera</a></div></nav>
-<main id="contenuto"><section class="institutional" id="momento-1" aria-labelledby="titolo-momento-1"><div class="wrap"><header class="moment-heading"><p class="mono">MOMENTO 01 / LA STRUTTURA DELL’ECOSISTEMA</p><h2 id="titolo-momento-1">DH UniCa. Dalla fonte all'interpretazione</h2><p>Le fonti diventano dati, informazioni e interpretazioni analitiche. I livelli del riferimento DH UniCa introducono gli ambienti nei quali questi passaggi prendono forma.</p></header><div class="dh-layout"><div class="dh-diagram" data-stack-scene="centro" data-stack-panel="dh"><button type="button" class="stack-toggle" aria-expanded="false" hidden="">Apri i livelli</button><figure><svg xmlns="http://www.w3.org/2000/svg" viewbox="-143.9 -304.0 638.1 723.0" class="iso-scene" data-layout="stack" data-gap="92" data-n="6" aria-hidden="true">
+<nav class="moment-nav" aria-label="I due momenti della presentazione"><div class="wrap"><a href="#momento-1" data-moment-link="momento-1" aria-current="location">01 · DH UniCa / l’ecosistema</a><a href="#momento-2" data-moment-link="momento-2">02 · LUDiCa / esplora la filiera</a><a href="#metro-ludica">03 · Mappa del laboratorio</a></div></nav>
+<main id="contenuto"><section class="institutional" id="momento-1" aria-labelledby="titolo-momento-1"><div class="wrap"><header class="moment-heading"><p class="mono">MOMENTO 01 / LA STRUTTURA DELL’ECOSISTEMA</p><h2 id="titolo-momento-1">DH UniCa. Dalla fonte all'interpretazione</h2><p>Le fonti diventano dati, informazioni e interpretazioni analitiche. I livelli del riferimento DH UniCa introducono gli ambienti nei quali questi passaggi prendono forma.</p></header><div class="dh-layout"><div class="dh-diagram" data-stack-scene="centro" data-stack-panel="dh"><button type="button" class="stack-toggle" aria-expanded="false" hidden="">Apri i livelli</button><figure><svg xmlns="http://www.w3.org/2000/svg" viewbox="-143.9 -380 638.1 880" class="iso-scene" data-layout="stack" data-gap="92" data-n="7" aria-hidden="true">
 <title id="centro-scenaA-t">Livelli della fonte</title><desc id="centro-scenaA-d">Fonte: Manoscritti, registri, carte, film, spartiti; Dematerializzazione: Scansione e fotografia ad alta risoluzione; Trascrizione: Lettura automatica della scrittura a mano (HTR); Codifica: Persone, luoghi e date marcati come dati; Luoghi e relazioni: Mappe storiche, reti di persone, GIS; Coinvolgimento pubblico: Portali, mostre, didattica, storia pubblica</desc>
 
 <g class="iso-layer" data-i="0" data-id="fonte" transform="translate(0 0)">
@@ -399,8 +497,13 @@ body { margin:0; padding:0; }
 <g fill="none" stroke="#bfe9ff" stroke-width="0.7" stroke-opacity="0.85"><path d="M136.0 36.0 Q85.0 22.0 34.1 41.3"></path><path d="M136.0 36.0 Q80.3 22.0 24.6 50.1"></path><path d="M160.0 78.0 Q97.6 64.0 35.2 84.0"></path><path d="M160.0 78.0 Q107.8 64.0 55.7 119.0"></path><path d="M128.0 117.0 Q80.6 100.3 33.3 114.3"></path><path d="M128.0 117.0 Q96.2 48.4 64.3 62.4"></path></g>
 <circle cx="55.7" cy="119.0" r="2.2" fill="#27a7e5" stroke="#ffffff" stroke-width="0.7"></circle><circle cx="34.1" cy="41.3" r="2.2" fill="#27a7e5" stroke="#ffffff" stroke-width="0.7"></circle><circle cx="35.2" cy="84.0" r="2.2" fill="#27a7e5" stroke="#ffffff" stroke-width="0.7"></circle><circle cx="24.6" cy="50.1" r="2.2" fill="#27a7e5" stroke="#ffffff" stroke-width="0.7"></circle><circle cx="33.3" cy="114.3" r="2.2" fill="#27a7e5" stroke="#ffffff" stroke-width="0.7"></circle><circle cx="64.3" cy="62.4" r="2.2" fill="#27a7e5" stroke="#ffffff" stroke-width="0.7"></circle>
 <circle cx="136.0" cy="36.0" r="3.4" fill="#ffffff"></circle><circle cx="136.0" cy="36.0" r="1.4" fill="#c0392b"></circle><circle cx="160.0" cy="78.0" r="3.4" fill="#ffffff"></circle><circle cx="160.0" cy="78.0" r="1.4" fill="#c0392b"></circle><circle cx="128.0" cy="117.0" r="3.4" fill="#ffffff"></circle><circle cx="128.0" cy="117.0" r="1.4" fill="#c0392b"></circle></g></g><g class="iso-label" aria-hidden="true" style="opacity:0"><circle cx="108.3" cy="94.5" r="2.6" class="iso-label-dot" fill="#163a6b"></circle><polyline points="108.3,94.5 209.0,94.5" class="iso-label-line" fill="none" stroke="#163a6b" stroke-width="0.8" stroke-dasharray="2 2"></polyline><text x="217" y="93.5" class="iso-label-title" font-family="'Titillium Web', Arial, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#163a6b">Luoghi e relazioni</text><text x="217" y="107.5" class="iso-label-sub" font-family="'Titillium Web', Arial, Helvetica, sans-serif" font-size="11" fill="#4a5a70">Mappe storiche, reti di persone, GIS</text></g></g>
-<g class="iso-layer" data-i="5" data-id="pubblico" transform="translate(0 0)">
-<g class="iso-body"><polygon class="face face-left " points="-129.9,27 43.3,127 43.3,115 -129.9,15" fill="#163a6b" stroke="#0e2646" stroke-width="0.8" stroke-linejoin="round"></polygon>
+<g class="iso-layer" data-i="5" data-id="visualizzazioni" transform="translate(0 0)">
+<g class="iso-body" transform="translate(0 -10)"><polygon class="face face-left " points="-129.9,37 43.3,137 43.3,127 -129.9,27" fill="#3980bf" stroke="#25537c" stroke-width="0.8" stroke-linejoin="round"></polygon>
+<polygon class="face face-right " points="173.21,62 43.3,137 43.3,127 173.21,52" fill="#2c6495" stroke="#25537c" stroke-width="0.8" stroke-linejoin="round"></polygon>
+<polygon class="face face-top " points="0,-48 173.21,52 43.3,127 -129.9,27" fill="#518fc7" stroke="#25537c" stroke-width="0.8" stroke-linejoin="round"></polygon>
+<g class="iso-motif" transform="matrix(0.87 0.5 -0.87 0.5 0 -48)"><rect x="28" y="88" width="22" height="36" rx="3" fill="#bfe9ff" fill-opacity=".65"></rect><rect x="62" y="62" width="22" height="62" rx="3" fill="#bfe9ff" fill-opacity=".65"></rect><rect x="96" y="42" width="22" height="82" rx="3" fill="#bfe9ff" fill-opacity=".65"></rect><rect x="130" y="25" width="22" height="99" rx="3" fill="#bfe9ff" fill-opacity=".65"></rect><path d="M18 126H170 M18 126V18 M25 90L70 55L105 68L155 16" fill="none" stroke="#ffffff" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"></path></g></g><g class="iso-label" aria-hidden="true" style="opacity:0" transform="translate(0 -10)"><circle cx="108.3" cy="94.5" r="2.6" class="iso-label-dot" fill="#163a6b"></circle><polyline points="108.3,94.5 209.0,94.5" class="iso-label-line" fill="none" stroke="#163a6b" stroke-width="0.8" stroke-dasharray="2 2"></polyline><text x="217" y="93.5" class="iso-label-title" font-family="'Titillium Web', Arial, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#163a6b">Visualizzazioni</text><text x="217" y="107.5" class="iso-label-sub" font-family="'Titillium Web', Arial, Helvetica, sans-serif" font-size="11" fill="#4a5a70">Grafici, mappe e lettura dei dati</text></g></g>
+<g class="iso-layer" data-i="6" data-id="pubblico" transform="translate(0 0)">
+<g class="iso-body" transform="translate(0 -12)"><polygon class="face face-left " points="-129.9,27 43.3,127 43.3,115 -129.9,15" fill="#163a6b" stroke="#0e2646" stroke-width="0.8" stroke-linejoin="round"></polygon>
 <polygon class="face face-right " points="173.21,52 43.3,127 43.3,115 173.21,40" fill="#112d53" stroke="#0e2646" stroke-width="0.8" stroke-linejoin="round"></polygon>
 <polygon class="face face-top " points="0,-60 173.21,40 43.3,115 -129.9,15" fill="#32527d" stroke="#0e2646" stroke-width="0.8" stroke-linejoin="round"></polygon>
 <g class="iso-motif" transform="matrix(0.87 0.5 -0.87 0.5 0 -60)"><rect x="12" y="10.500000000000002" width="176" height="129" rx="3" fill="#0f294b" stroke="#27a7e5" stroke-width="0.8"></rect>
@@ -411,11 +514,11 @@ body { margin:0; padding:0; }
 <rect x="84" y="26.5" width="92" height="19" rx="2" fill="#ffffff" fill-opacity="0.1" stroke="#27a7e5" stroke-opacity="0.5" stroke-width="0.5"></rect><rect x="88" y="29.5" width="13" height="13" rx="1" fill="#27a7e5" fill-opacity="0.35"></rect><rect x="105" y="31.5" width="52" height="2.6" rx="1" fill="#ffffff" fill-opacity="0.85"></rect><rect x="105" y="37" width="36" height="2" rx="1" fill="#ffffff" fill-opacity="0.45"></rect><rect x="84" y="50.5" width="92" height="19" rx="2" fill="#ffffff" fill-opacity="0.1" stroke="#27a7e5" stroke-opacity="0.5" stroke-width="0.5"></rect><rect x="88" y="53.5" width="13" height="13" rx="1" fill="#27a7e5" fill-opacity="0.55"></rect><rect x="105" y="55.5" width="52" height="2.6" rx="1" fill="#ffffff" fill-opacity="0.85"></rect><rect x="105" y="61" width="36" height="2" rx="1" fill="#ffffff" fill-opacity="0.45"></rect><rect x="84" y="74.5" width="92" height="19" rx="2" fill="#ffffff" fill-opacity="0.1" stroke="#27a7e5" stroke-opacity="0.5" stroke-width="0.5"></rect><rect x="88" y="77.5" width="13" height="13" rx="1" fill="#27a7e5" fill-opacity="0.75"></rect><rect x="105" y="79.5" width="52" height="2.6" rx="1" fill="#ffffff" fill-opacity="0.85"></rect><rect x="105" y="85" width="36" height="2" rx="1" fill="#ffffff" fill-opacity="0.45"></rect>
 <g stroke="#bfe9ff" stroke-width="0.6"><line x1="22.0" y1="125.5" x2="22.0" y2="129.5"></line><line x1="37.6" y1="125.5" x2="37.6" y2="129.5"></line><line x1="53.2" y1="125.5" x2="53.2" y2="129.5"></line><line x1="68.8" y1="125.5" x2="68.8" y2="129.5"></line><line x1="84.4" y1="125.5" x2="84.4" y2="129.5"></line><line x1="100.0" y1="125.5" x2="100.0" y2="129.5"></line><line x1="115.6" y1="125.5" x2="115.6" y2="129.5"></line><line x1="131.2" y1="125.5" x2="131.2" y2="129.5"></line><line x1="146.8" y1="125.5" x2="146.8" y2="129.5"></line><line x1="162.4" y1="125.5" x2="162.4" y2="129.5"></line><line x1="178.0" y1="125.5" x2="178.0" y2="129.5"></line><line x1="22" y1="127.5" x2="178" y2="127.5"></line></g>
 <rect x="68.8" y="125.9" width="59.28" height="3.2" rx="1.6" fill="#27a7e5"></rect>
-<text x="68.8" y="123.5" font-family="'Roboto Mono', 'Courier New', monospace" font-size="4" fill="#ffffff">1720 — 1847</text></g></g><g class="iso-label" aria-hidden="true" style="opacity:0"><circle cx="108.3" cy="83.5" r="2.6" class="iso-label-dot" fill="#163a6b"></circle><polyline points="108.3,83.5 209.0,83.5" class="iso-label-line" fill="none" stroke="#163a6b" stroke-width="0.8" stroke-dasharray="2 2"></polyline><text x="217" y="82.5" class="iso-label-title" font-family="'Titillium Web', Arial, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#163a6b">Coinvolgimento pubblico</text><text x="217" y="96.5" class="iso-label-sub" font-family="'Titillium Web', Arial, Helvetica, sans-serif" font-size="11" fill="#4a5a70">Portali, mostre, didattica, storia pubblica</text></g></g>
+<text x="68.8" y="123.5" font-family="'Roboto Mono', 'Courier New', monospace" font-size="4" fill="#ffffff">1720 — 1847</text></g></g><g class="iso-label" aria-hidden="true" style="opacity:0" transform="translate(0 -12)"><circle cx="108.3" cy="83.5" r="2.6" class="iso-label-dot" fill="#163a6b"></circle><polyline points="108.3,83.5 209.0,83.5" class="iso-label-line" fill="none" stroke="#163a6b" stroke-width="0.8" stroke-dasharray="2 2"></polyline><text x="217" y="82.5" class="iso-label-title" font-family="'Titillium Web', Arial, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#163a6b">Coinvolgimento pubblico</text><text x="217" y="96.5" class="iso-label-sub" font-family="'Titillium Web', Arial, Helvetica, sans-serif" font-size="11" fill="#4a5a70">Portali, mostre, didattica, storia pubblica</text></g></g>
 </svg>
-<figcaption>Apri e ricomponi i livelli. Seleziona una scheda nella pila o nella lista per esplorarla.</figcaption></figure></div><div class="dh-steps"><details class="dh-step" data-dh-step="fonte"><summary><span class="mono">01</span><strong>Fonti</strong><span class="dh-plus" aria-hidden="true">+</span></summary><div><p>Un registro contabile, un atto notarile, una carta nautica, una pellicola, una fotografia, una testimonianza orale. Generiamo strumenti e sperimentiamo percorsi per gestirle e interpretarle in ambiente computazionale</p></div></details><details class="dh-step" data-dh-step="acquisizione"><summary><span class="mono">02</span><strong>Dematerializzazione</strong><span class="dh-plus" aria-hidden="true">+</span></summary><div><p>Nel passaggio dal supporto analogico al digitale, qualità dell’acquisizione, provenienza e contesto hanno un impatto decisivo sull’interpretazione</p></div></details><details class="dh-step" data-dh-step="trascrizione"><summary><span class="mono">03</span><strong>Trascrizione</strong><span class="dh-plus" aria-hidden="true">+</span></summary><div><p>Paleografi, storici e archivisti addestrano modelli che trasformano l'immagine in testo ricercabile e in dati visualizzabili</p></div></details><details class="dh-step" data-dh-step="codifica"><summary><span class="mono">04</span><strong>Codifica</strong><span class="dh-plus" aria-hidden="true">+</span></summary><div><p>Filologi e linguisti guidano nella annotazione del testo: chi compare, dove, quando. Standard come TEI rendono i dati riusabili.</p></div></details><details class="dh-step" data-dh-step="relazioni"><summary><span class="mono">05</span><strong>Luoghi e relazioni</strong><span class="dh-plus" aria-hidden="true">+</span></summary><div><p>Grazie all'uso del GIS e della network analysis i dati si collegano: i dati vengono letti sullo spazio storico, le persone e i processi nelle reti. Emergono domande che la lettura da sola non vedeva.</p></div></details><details class="dh-step" data-dh-step="pubblico"><summary><span class="mono">06</span><strong>Coinvolgimento pubblico</strong><span class="dh-plus" aria-hidden="true">+</span></summary><div><p>Il risultato torna alle persone: portali aperti, percorsi didattici, mostre. E da ogni schermata si può risalire alla fonte.</p></div></details></div></div><header class="project-heading" id="progetti-dh"><p class="mono">RISCONTRI / PROGETTI E LABORATORI</p>
+<figcaption>Apri e ricomponi i livelli. Seleziona una scheda nella pila o nella lista per esplorarla.</figcaption></figure></div><div class="dh-steps"><details class="dh-step" data-dh-step="fonte" id="dh-livello-fonte"><summary><span class="mono">01</span><strong>Fonti</strong><span class="dh-plus" aria-hidden="true">+</span></summary><div><p>Un registro contabile, un atto notarile, una carta nautica, una pellicola, una fotografia, una testimonianza orale. Generiamo strumenti e sperimentiamo percorsi per gestirle e interpretarle in ambiente computazionale</p></div></details><details class="dh-step" data-dh-step="acquisizione" id="dh-livello-acquisizione"><summary><span class="mono">02</span><strong>Dematerializzazione</strong><span class="dh-plus" aria-hidden="true">+</span></summary><div><p>Nel passaggio dal supporto analogico al digitale, qualità dell’acquisizione, provenienza e contesto hanno un impatto decisivo sull’interpretazione</p></div></details><details class="dh-step" data-dh-step="trascrizione" id="dh-livello-trascrizione"><summary><span class="mono">03</span><strong>Trascrizione</strong><span class="dh-plus" aria-hidden="true">+</span></summary><div><p>Paleografi, storici e archivisti addestrano modelli che trasformano l'immagine in testo ricercabile e in dati visualizzabili</p></div></details><details class="dh-step" data-dh-step="codifica" id="dh-livello-codifica"><summary><span class="mono">04</span><strong>Codifica</strong><span class="dh-plus" aria-hidden="true">+</span></summary><div><p>Filologi e linguisti guidano nella annotazione del testo: chi compare, dove, quando. Standard come TEI rendono i dati riusabili.</p></div></details><details class="dh-step" data-dh-step="relazioni" id="dh-livello-relazioni"><summary><span class="mono">05</span><strong>Luoghi e relazioni</strong><span class="dh-plus" aria-hidden="true">+</span></summary><div><p>Grazie all'uso del GIS e della network analysis i dati si collegano: i dati vengono letti sullo spazio storico, le persone e i processi nelle reti. Emergono domande che la lettura da sola non vedeva.</p></div></details><details class="dh-step" data-dh-step="visualizzazioni" id="dh-livello-visualizzazioni"><summary><span class="mono">06</span><strong>Visualizzazioni</strong><span class="dh-plus" aria-hidden="true">+</span></summary><div><p>Grafici, mappe e rappresentazioni interattive rendono esplorabili le relazioni tra fonti, dati e interpretazioni.</p></div></details><details class="dh-step" data-dh-step="pubblico" id="dh-livello-pubblico"><summary><span class="mono">07</span><strong>Coinvolgimento pubblico</strong><span class="dh-plus" aria-hidden="true">+</span></summary><div><p>Il risultato torna alle persone: portali aperti, percorsi didattici, mostre. E da ogni schermata si può risalire alla fonte.</p></div></details></div></div><!-- Catalogo sincronizzato automaticamente con DH_ECOSISTEMA e DH_ALTRI_RISCONTRI. Modifica gli elenchi, non queste schede generate. --><header class="project-heading" id="progetti-dh"><p class="mono">RISCONTRI / PROGETTI E LABORATORI</p>
 
-<h3>Dove il racconto diventa pratica.</h3><p>Queste destinazioni sono riprese dai rimandi del riferimento DH UniCa. Ogni scheda permette di aprire il sito reale o di tornare ai livelli della filiera che lo richiamano.</p></header><div class="project-grid"><article class="dh-project" id="progetto-archivistica" tabindex="-1" data-project="archivistica"><p class="mono project-index">DH / 01</p><h3>Compasso de Navegare</h3><p>Un esempio pratico di trascrizione e spazializzazione digitale della fonte</p><a class="project-open" href="https://storia.dh.unica.it/asmsa/it/le-traversate-nel-compasso-de-navigare" target="_blank" rel="noopener noreferrer" aria-label="Apri Compasso de Navegare (nuova scheda)">Apri il progetto reale ↗</a><div class="project-related"><a href="#livello-01">Livello 01 della filiera ↓</a></div></article><article class="dh-project" id="progetto-scan-lab" tabindex="-1" data-project="scan-lab"><p class="mono project-index">DH / 02</p><h3>SCAN lab</h3><p>Acquisizione delle fonti: scansione e fotografia come passaggio dal supporto analogico al digitale.</p><a class="project-open" href="https://dh.unica.it/2321-2/scanner/" target="_blank" rel="noopener noreferrer" aria-label="Apri SCAN lab (nuova scheda)">Apri il laboratorio ↗</a><div class="project-related"><a href="#livello-01">Livello 01 della filiera ↓</a></div></article><article class="dh-project" id="progetto-htr-lab" tabindex="-1" data-project="htr-lab"><p class="mono project-index">DH / 03</p><h3>HTR Lab</h3><p>Riconoscimento della scrittura a mano: dall’immagine al testo ricercabile, da rivedere criticamente.</p><a class="project-open" href="https://dh.unica.it/2321-2/htr-lab/" target="_blank" rel="noopener noreferrer" aria-label="Apri HTR Lab (nuova scheda)">Apri il laboratorio ↗</a><div class="project-related"><a href="#livello-03">Livello 03 della filiera ↓</a></div></article><article class="dh-project" id="progetto-linguistica" tabindex="-1" data-project="linguistica"><p class="mono project-index">DH / 04</p><h3>Linguistica</h3><p>L’ambito linguistico dell’ecosistema DH UniCa.</p><a class="project-open" href="https://linguistica.dh.unica.it" target="_blank" rel="noopener noreferrer" aria-label="Apri Linguistica (nuova scheda)">Apri il laboratorio ↗</a><div class="project-related"><a href="#livello-03">Livello 03 della filiera ↓</a></div></article><article class="dh-project" id="progetto-orbis-lab" tabindex="-1" data-project="orbis-lab"><p class="mono project-index">DH / 05</p><h3>ORBIS² Lab</h3><p>Il laboratorio richiamato dalla tavola per luoghi, relazioni e lettura spaziale dei dati.</p><a class="project-open" href="https://dh.unica.it/2321-2/orbis%c2%b2-lab/" target="_blank" rel="noopener noreferrer" aria-label="Apri ORBIS² Lab (nuova scheda)">Apri il laboratorio ↗</a><div class="project-related"><a href="#livello-03">Livello 03 della filiera ↓</a></div></article><article class="dh-project" id="progetto-public-history-lab" tabindex="-1" data-project="public-history-lab"><p class="mono project-index">DH / 06</p><h3>LUDiCa</h3><p>Il rimando della tavola per l’uso pubblico della ricerca, la didattica e il dialogo con le persone.</p><a class="project-open" href="https://ludica.dh.unica.it" target="_blank" rel="noopener noreferrer" aria-label="Apri LUDiCa (nuova scheda)">Apri il laboratorio ↗</a><div class="project-related"><a href="#livello-02">Livello 02 della filiera ↓</a><a href="#livello-04">Livello 04 della filiera ↓</a></div></article><article class="dh-project" id="progetto-parlamento" tabindex="-1" data-project="parlamento"><p class="mono project-index">DH / 07</p><h3>Il Parlamento del Regno di Sardegna</h3><p>Un caso di studio richiamato dalla tavola per i documenti e le fonti del Regno di Sardegna.</p><a class="project-open" href="https://storia.dh.unica.it/il-parlamento-del-regno-di-sardegna/" target="_blank" rel="noopener noreferrer" aria-label="Apri Il Parlamento del Regno di Sardegna (nuova scheda)">Apri il progetto reale ↗</a><div class="project-related"><a href="#livello-01">Livello 01 della filiera ↓</a></div></article><article class="dh-project" id="progetto-asmsa" tabindex="-1" data-project="asmsa"><p class="mono project-index">DH / 08</p><h3>Atlante digitale di storia marittima</h3><p>ASMSA è il portale dedicato alla storia marittima del Regno di Sardegna e alle sue connessioni mediterranee.</p><a class="project-open" href="https://storia.dh.unica.it/asmsa/" target="_blank" rel="noopener noreferrer" aria-label="Apri Atlante digitale di storia marittima (nuova scheda)">Apri il progetto reale ↗</a><div class="project-related"><a href="#livello-03">Livello 03 della filiera ↓</a></div></article><article class="dh-project" id="progetto-colonizzazioni" tabindex="-1" data-project="colonizzazioni"><p class="mono project-index">DH / 09</p><h3>Colonizzazioni interne</h3><p>Il caso di studio richiamato per insediamenti, spostamenti e relazioni nel tempo e nello spazio.</p><a class="project-open" href="https://storia.dh.unica.it/colonizzazioninterne/" target="_blank" rel="noopener noreferrer" aria-label="Apri Colonizzazioni interne (nuova scheda)">Apri il progetto reale ↗</a><div class="project-related"><a href="#livello-03">Livello 03 della filiera ↓</a></div></article><article class="dh-project" id="progetto-arcipelago-corsaro" tabindex="-1" data-project="arcipelago-corsaro"><p class="mono project-index">DH / 10</p><h3>Arcipelago Corsaro</h3><p>Un percorso nell’Atlante digitale di storia marittima (ASMSA), richiamato come esempio di pubblicazione e consultazione della ricerca.</p><a class="project-open" href="https://storia.dh.unica.it/asmsa/it/arcipelago-corsaro" target="_blank" rel="noopener noreferrer" aria-label="Apri Arcipelago Corsaro (nuova scheda)">Apri Arcipelago Corsaro ↗</a><div class="project-related"><a href="#livello-02">Livello 02 della filiera ↓</a><a href="#livello-03">Livello 03 della filiera ↓</a><a href="#livello-04">Livello 04 della filiera ↓</a></div></article></div></div></section>
+<h3>Dove il racconto diventa pratica.</h3><p>Queste destinazioni sono riprese dai rimandi del riferimento DH UniCa. Ogni scheda permette di aprire il sito reale o di tornare ai livelli della filiera che lo richiamano.</p></header><div class="project-grid" data-dh-catalogo=""><article class="dh-project" id="progetto-scan-lab" data-project="scan-lab" tabindex="-1"><p class="mono project-index">DH / 01</p><h3>SCAN lab</h3><p>Laboratorio associato ai livelli: Fonti, Dematerializzazione.</p><a class="project-open" href="https://dh.unica.it/2321-2/scanner/" target="_blank" rel="noopener noreferrer">Apri il laboratorio ↗</a><div class="project-related"><a href="#dh-livello-fonte">Livello Fonti ↑</a><a href="#dh-livello-acquisizione">Livello Dematerializzazione ↑</a></div></article><article class="dh-project" id="progetto-archivistica" data-project="archivistica" tabindex="-1"><p class="mono project-index">DH / 02</p><h3>Compasso de Navegare</h3><p>Progetto di applicazione dei livelli: Fonti.</p><a class="project-open" href="https://storia.dh.unica.it/asmsa/it/le-traversate-nel-compasso-de-navigare" target="_blank" rel="noopener noreferrer">Apri il progetto ↗</a><div class="project-related"><a href="#dh-livello-fonte">Livello Fonti ↑</a></div></article><article class="dh-project" id="progetto-almanacco-stampa" data-project="almanacco-stampa" tabindex="-1"><p class="mono project-index">DH / 03</p><h3>Almanacco della Stampa</h3><p>Progetto di applicazione dei livelli: Dematerializzazione.</p><a class="project-open" href="http://storia.dh.unica.it/almanaccostampasarda" target="_blank" rel="noopener noreferrer">Esplora l'Almanacco della Stampa</a><div class="project-related"><a href="#dh-livello-acquisizione">Livello Dematerializzazione ↑</a></div></article><article class="dh-project" id="progetto-htr-lab" data-project="htr-lab" tabindex="-1"><p class="mono project-index">DH / 04</p><h3>HTR Lab</h3><p>Laboratorio associato ai livelli: Trascrizione.</p><a class="project-open" href="https://dh.unica.it/2321-2/htr-lab/" target="_blank" rel="noopener noreferrer">Apri il laboratorio ↗</a><div class="project-related"><a href="#dh-livello-trascrizione">Livello Trascrizione ↑</a></div></article><article class="dh-project" id="progetto-ordine-ragione-calcolo" data-project="ordine-ragione-calcolo" tabindex="-1"><p class="mono project-index">DH / 05</p><h3>Ordine, ragione, calcolo</h3><p>Progetto di applicazione dei livelli: Codifica.</p><a class="project-open" href="https://glossari.dh.unica.it/glossario-termini-ordine-calcolo-ragione-italia" target="_blank" rel="noopener noreferrer">Apri il progetto ↗</a><div class="project-related"><a href="#dh-livello-codifica">Livello Codifica ↑</a></div></article><article class="dh-project" id="progetto-orbis-lab" data-project="orbis-lab" tabindex="-1"><p class="mono project-index">DH / 06</p><h3>ORBIS² Lab</h3><p>Laboratorio associato ai livelli: Luoghi e relazioni.</p><a class="project-open" href="https://dh.unica.it/2321-2/orbis%c2%b2-lab/" target="_blank" rel="noopener noreferrer">Apri il laboratorio ↗</a><div class="project-related"><a href="#dh-livello-relazioni">Livello Luoghi e relazioni ↑</a></div></article><article class="dh-project" id="progetto-torri-mediterranee" data-project="torri-mediterranee" tabindex="-1"><p class="mono project-index">DH / 07</p><h3>Torri mediterranee</h3><p>Progetto di applicazione dei livelli: Luoghi e relazioni.</p><a class="project-open" href="https://geonode.dh.unica.it/catalogue/#/map/567" target="_blank" rel="noopener noreferrer">Apri il progetto ↗</a><div class="project-related"><a href="#dh-livello-relazioni">Livello Luoghi e relazioni ↑</a></div></article><article class="dh-project" id="progetto-colonizzazioni" data-project="colonizzazioni" tabindex="-1"><p class="mono project-index">DH / 08</p><h3>Colonizzazioni interne</h3><p>Progetto di applicazione dei livelli: Luoghi e relazioni.</p><a class="project-open" href="https://geonode.dh.unica.it/catalogue/#/map/755" target="_blank" rel="noopener noreferrer">Apri il progetto ↗</a><div class="project-related"><a href="#dh-livello-relazioni">Livello Luoghi e relazioni ↑</a></div></article><article class="dh-project" id="progetto-parlamento" data-project="parlamento" tabindex="-1"><p class="mono project-index">DH / 09</p><h3>Il Parlamento del Regno di Sardegna</h3><p>Progetto di applicazione dei livelli: Visualizzazioni.</p><a class="project-open" href="https://storia.dh.unica.it/122-2/" target="_blank" rel="noopener noreferrer">Esplora il progetto: Il Parlamento del Regno di Sardegna</a><div class="project-related"><a href="#dh-livello-visualizzazioni">Livello Visualizzazioni ↑</a></div></article><article class="dh-project" id="progetto-public-history-lab" data-project="public-history-lab" tabindex="-1"><p class="mono project-index">DH / 10</p><h3>LUDiCa</h3><p>Laboratorio associato ai livelli: Coinvolgimento pubblico.</p><a class="project-open" href="https://ludica.dh.unica.it" target="_blank" rel="noopener noreferrer">Apri il laboratorio ↗</a><div class="project-related"><a href="#dh-livello-pubblico">Livello Coinvolgimento pubblico ↑</a></div></article><article class="dh-project" id="progetto-monumenta" data-project="monumenta" tabindex="-1"><p class="mono project-index">DH / 11</p><h3>Monumenta</h3><p>Progetto di applicazione dei livelli: Coinvolgimento pubblico.</p><a class="project-open" href="https://storia.dh.unica.it/storiedigitali/s/monumenta/page/monumenta" target="_blank" rel="noopener noreferrer">Apri il progetto ↗</a><div class="project-related"><a href="#dh-livello-pubblico">Livello Coinvolgimento pubblico ↑</a></div></article><article class="dh-project" id="progetto-asmsa" data-project="asmsa" tabindex="-1"><p class="mono project-index">DH / 12</p><h3>Atlante digitale di storia marittima</h3><p>ASMSA è il portale dedicato alla storia marittima del Regno di Sardegna e alle sue connessioni mediterranee.</p><a class="project-open" href="https://storia.dh.unica.it/asmsa/" target="_blank" rel="noopener noreferrer">Apri il progetto ↗</a></article><article class="dh-project" id="progetto-arcipelago-corsaro" data-project="arcipelago-corsaro" tabindex="-1"><p class="mono project-index">DH / 13</p><h3>Arcipelago Corsaro</h3><p>Un percorso nell’Atlante digitale di storia marittima (ASMSA), richiamato come esempio di pubblicazione e consultazione della ricerca.</p><a class="project-open" href="https://storia.dh.unica.it/asmsa/it/arcipelago-corsaro" target="_blank" rel="noopener noreferrer">Apri il progetto ↗</a></article></div></div></section>
 <aside class="moment-bridge" aria-label="Passaggio tra i due momenti"><div class="wrap"><p><strong>Dalla struttura alla sperimentazione.</strong>Ora entra nel LUDiCa: gli ambienti e i progetti diventano riscontri per esplorare una filiera di azioni metodologiche, metodiche e computazionali.</p><a href="#momento-2">Passa al momento interattivo ↓</a></div></aside>
 <section class="laboratorio-section" id="momento-2" aria-label="LUDiCa: dalla struttura alla sperimentazione"><section class="ludica-filiera" data-ludica-filiera aria-label="La filiera condivisa del LUDiCa" id="filiera-ludica">
  
@@ -431,7 +534,7 @@ body { margin:0; padding:0; }
  </details><details class="lf-node" data-node id="livello-01-ramo-03">
  <summary><span class="lf-node-index">01.3</span><strong>Critica e rigore scientifico</strong><span class="lf-node-hint">Rendere verificabile il percorso <span aria-hidden="true">+</span></span></summary>
  <div class="lf-node-body"><p>Valutare attendibilità, contesto e limiti delle fonti; distinguere evidenze, interpretazioni e questioni aperte.</p><dl><dt>Attori coinvolti</dt><dd>Docenti, studenti e interlocutori del territorio, nel confronto sui materiali.</dd><dt>Strumenti e pratiche</dt><dd>Confronto fra fonti, citazioni, riferimenti archivistici e revisione critica.</dd><dt>Che cosa produce</dt><dd>Interpretazioni argomentate e un metodo storico reso comprensibile.</dd></dl><a class="lf-link lf-resource-link" data-lf-link="nodo_01_3" hidden="">Approfondisci ↗</a><p class="lf-caption lf-resource-pending" data-lf-pending="nodo_01_3">Approfondimento in preparazione.</p></div>
- </details></div><a class="lf-link" href="https://ludica.dh.unica.it/laboratorio/">Conosci il laboratorio ↗</a></div>
+ </details></div><a class="lf-link" href="https://ludica.dh.unica.it/laboratorio/" target="_blank" rel="noopener noreferrer">Conosci il laboratorio ↗</a></div>
  </details><details class="lf-layer lf-metodica" data-layer="2" id="livello-02">
  <summary><span class="lf-layer-label"><span class="lf-kicker">02 / DIDATTICA</span><strong>Metodica e didattica attiva</strong><span class="lf-sub">Équipe · Bottega digitale · campo</span></span><span class="lf-indicator" aria-hidden="true">+</span><svg class="lf-plane-art" viewbox="0 0 400 70" aria-hidden="true"><path d="M20 55H380 M45 55V25H100V55 M140 55V12H195V55 M235 55V30H290V55 M330 55V8H375V55"></path></svg></summary>
  <div class="lf-expansion"><p class="lf-layer-intro">Traduciamo l’impostazione della ricerca in pratiche condivise: la Bottega digitale prepara al lavoro sul campo, dove docenti, studenti e comunità costruiscono conoscenza insieme.</p><p class="lf-caption">Apri un ramo per esplorare azioni, attori e strumenti.</p><div class="lf-branches"><details class="lf-node" data-node id="livello-02-ramo-01">
@@ -443,7 +546,7 @@ body { margin:0; padding:0; }
  </details><details class="lf-node" data-node id="livello-02-ramo-03">
  <summary><span class="lf-node-index">02.3</span><strong>Sperimentazione e riflessività</strong><span class="lf-node-hint">Documentare come si impara <span aria-hidden="true">+</span></span></summary>
  <div class="lf-node-body"><p>Mettere alla prova i metodi sul caso di studio e discutere difficoltà, scelte e risultati del lavoro.</p><dl><dt>Attori coinvolti</dt><dd>Ogni partecipante, con il supporto dei formatori e del gruppo.</dd><dt>Strumenti e pratiche</dt><dd>Diari di bordo, confronto seminariale e restituzione del percorso.</dd><dt>Che cosa produce</dt><dd>Esperienze argomentate che alimentano la riflessione didattica e scientifica.</dd></dl><a class="lf-link lf-resource-link" data-lf-link="nodo_02_3" hidden="">Approfondisci ↗</a><p class="lf-caption lf-resource-pending" data-lf-pending="nodo_02_3">Approfondimento in preparazione.</p></div>
- </details></div><a class="lf-link" href="https://ludica.dh.unica.it/bottega-digitale-2/">Entra nella Bottega digitale ↗</a></div>
+ </details></div><a class="lf-link" href="https://ludica.dh.unica.it/bottega-digitale-2/" target="_blank" rel="noopener noreferrer">Entra nella Bottega digitale ↗</a></div>
  </details><details class="lf-layer lf-computazione" data-layer="3" id="livello-03">
  <summary><span class="lf-layer-label"><span class="lf-kicker">03 / OPERATIVITÀ</span><strong>Azioni computazionali</strong><span class="lf-sub">Metadati · relazioni · analisi</span></span><span class="lf-indicator" aria-hidden="true">+</span><svg class="lf-plane-art" viewbox="0 0 400 70" aria-hidden="true"><path d="M25 35H375 M75 15V55 M150 15V55 M225 15V55 M300 15V55 M25 15H375V55H25Z"></path></svg></summary>
  <div class="lf-expansion"><p class="lf-layer-intro">Organizziamo i materiali come dati storici interrogabili: descrizione, relazioni e analisi computazionale sostengono l’interpretazione e la pubblicazione.</p><p class="lf-caption">Apri un ramo per esplorare azioni, attori e strumenti.</p><div class="lf-branches"><details class="lf-node" data-node id="livello-03-ramo-01">
@@ -455,7 +558,7 @@ body { margin:0; padding:0; }
  </details><details class="lf-node" data-node id="livello-03-ramo-03">
  <summary><span class="lf-node-index">03.3</span><strong>Organizzare e pubblicare</strong><span class="lf-node-hint">Costruire un ambiente di ricerca <span aria-hidden="true">+</span></span></summary>
  <div class="lf-node-body"><p>Selezionare materiali e percorsi narrativi, verificare i collegamenti e predisporre l’accesso pubblico.</p><dl><dt>Attori coinvolti</dt><dd>Gruppi di lavoro, formatori e responsabili dell’infrastruttura DH UniCA.</dd><dt>Strumenti e pratiche</dt><dd>Omeka S, collezioni, pagine e oggetti multimediali nell’ecosistema DH UniCA.</dd><dt>Che cosa produce</dt><dd>Una base di conoscenza organizzata, alla quale collegare le narrazioni storiche.</dd></dl><a class="lf-link lf-resource-link" data-lf-link="nodo_03_3" hidden="">Approfondisci ↗</a><p class="lf-caption lf-resource-pending" data-lf-pending="nodo_03_3">Approfondimento in preparazione.</p></div>
- </details></div><a class="lf-link" href="https://ludica.dh.unica.it/2026/06/21/flusso-di-lavoro/">Approfondisci il flusso di lavoro ↗</a></div>
+ </details></div><a class="lf-link" href="https://ludica.dh.unica.it/2026/06/21/flusso-di-lavoro/" target="_blank" rel="noopener noreferrer">Approfondisci il flusso di lavoro ↗</a></div>
  </details><details class="lf-layer lf-disseminazione" data-layer="4" id="livello-04">
  <summary><span class="lf-layer-label"><span class="lf-kicker">04 / IMPATTO</span><strong>Disseminazione e restituzione</strong><span class="lf-sub">Incontro pubblico · Quaderni · portali</span></span><span class="lf-indicator" aria-hidden="true">+</span><svg class="lf-plane-art" viewbox="0 0 400 70" aria-hidden="true"><path d="M20 50L100 20L200 48L300 18L380 45 M100 20L300 18 M200 48L300 18"></path></svg></summary>
  <div class="lf-expansion"><p class="lf-layer-intro">Rendiamo pubblici risultati e percorso: le restituzioni di fine campo, i Quaderni e i portali delle edizioni permettono al lavoro di ritornare al territorio e di aprirsi a nuove domande.</p><p class="lf-caption">Apri un ramo per esplorare azioni, attori e strumenti.</p><div class="lf-branches"><details class="lf-node" data-node id="livello-04-ramo-01">
@@ -463,25 +566,63 @@ body { margin:0; padding:0; }
  <div class="lf-node-body"><p>Presentare alla fine del campo le ricerche e il portale, raccontando come sono stati costruiti i risultati.</p><dl><dt>Attori coinvolti</dt><dd>Partecipanti, docenti e comunità che hanno contribuito al lavoro.</dd><dt>Strumenti e pratiche</dt><dd>Presentazioni, incontro pubblico e navigazione dei materiali pubblicati.</dd><dt>Che cosa produce</dt><dd>Un’occasione di confronto con i pubblici e il territorio.</dd></dl><a class="lf-link lf-resource-link" data-lf-link="nodo_04_1" hidden="">Approfondisci ↗</a><p class="lf-caption lf-resource-pending" data-lf-pending="nodo_04_1">Approfondimento in preparazione.</p></div>
  </details><details class="lf-node" data-node id="livello-04-ramo-02">
  <summary><span class="lf-node-index">04.2</span><strong>Quaderni del LUDiCa</strong><span class="lf-node-hint">Riflettere sul mestiere storico <span aria-hidden="true">+</span></span></summary>
- <div class="lf-node-body"><p>Rielaborare l’esperienza nei diari di bordo e renderla disponibile nella collana scientifica UNICApress.</p><dl><dt>Attori coinvolti</dt><dd>Partecipanti al laboratorio e responsabili della collana.</dd><dt>Strumenti e pratiche</dt><dd>Scrittura critica, cura editoriale e pubblicazione dei Quaderni.</dd><dt>Che cosa produce</dt><dd>Una memoria del percorso formativo e delle sue scelte metodologiche.</dd></dl><a class="lf-link" href="https://ludica.dh.unica.it/pubblicazioni/quaderni-del-ludica/" data-lf-link="nodo_04_2">Leggi i Quaderni ↗</a></div>
+ <div class="lf-node-body"><p>Rielaborare l’esperienza nei diari di bordo e renderla disponibile nella collana scientifica UNICApress.</p><dl><dt>Attori coinvolti</dt><dd>Partecipanti al laboratorio e responsabili della collana.</dd><dt>Strumenti e pratiche</dt><dd>Scrittura critica, cura editoriale e pubblicazione dei Quaderni.</dd><dt>Che cosa produce</dt><dd>Una memoria del percorso formativo e delle sue scelte metodologiche.</dd></dl><a class="lf-link" href="https://ludica.dh.unica.it/pubblicazioni/quaderni-del-ludica/" data-lf-link="nodo_04_2" target="_blank" rel="noopener noreferrer">Leggi i Quaderni ↗</a></div>
  </details><details class="lf-node" data-node id="livello-04-ramo-03">
  <summary><span class="lf-node-index">04.3</span><strong>Portali delle edizioni</strong><span class="lf-node-hint">Esplorare le storie condivise <span aria-hidden="true">+</span></span></summary>
- <div class="lf-node-body"><p>Pubblicare il portale dedicato all’edizione nella raccolta Storie Digitali UniCA, con fonti, schede, mappe e narrazioni.</p><dl><dt>Attori coinvolti</dt><dd>Partecipanti e formatori, insieme alle persone e alle istituzioni del territorio.</dd><dt>Strumenti e pratiche</dt><dd>Portali dell’ecosistema DH UniCA e raccolta Storie Digitali.</dd><dt>Che cosa produce</dt><dd>Esiti aperti alla consultazione e al proseguimento del dialogo con le comunità.</dd></dl><ul class="lf-portals"><li><a href="https://storia.dh.unica.it/storiedigitali/s/ludica-25-confraternite/page/welcome"><span>2025</span> Confraternite a Cagliari ↗</a></li><li><a href="https://storia.dh.unica.it/storiedigitali/s/ludica_2024/page/home"><span>2024</span> Carloforte e Sant’Antioco ↗</a></li><li><a href="https://storia.dh.unica.it/storiedigitali/s/campiestivi_santantioco_2023/page/primapagina"><span>2023</span> Sant’Antioco e il mare ↗</a></li><li><a href="https://storia.dh.unica.it/storiedigitali/s/campiestivi_orani_22/page/primapagina"><span>2022</span> Orani ↗</a></li><li><a href="https://storia.dh.unica.it/storiedigitali/s/monumenta/page/monumenta"><span>2021</span> Monumenta ↗</a></li><li><a href="https://storia.dh.unica.it/storiedigitali/s/campoestivo_nuraminis/page/home"><span>2019</span> Nuraminis e Villagreca ↗</a></li></ul><p class="lf-caption">Altri esiti e aggiornamenti sono nella raccolta Storie Digitali UniCA.</p><a class="lf-link lf-resource-link" data-lf-link="nodo_04_3" hidden="">Approfondisci ↗</a><p class="lf-caption lf-resource-pending" data-lf-pending="nodo_04_3">Approfondimento in preparazione.</p></div>
- </details></div><a class="lf-link" href="https://storia.dh.unica.it/storiedigitali/">Esplora Storie Digitali UniCA ↗</a></div>
+ <div class="lf-node-body"><p>Pubblicare il portale dedicato all’edizione nella raccolta Storie Digitali UniCA, con fonti, schede, mappe e narrazioni.</p><dl><dt>Attori coinvolti</dt><dd>Partecipanti e formatori, insieme alle persone e alle istituzioni del territorio.</dd><dt>Strumenti e pratiche</dt><dd>Portali dell’ecosistema DH UniCA e raccolta Storie Digitali.</dd><dt>Che cosa produce</dt><dd>Esiti aperti alla consultazione e al proseguimento del dialogo con le comunità.</dd></dl><ul class="lf-portals"><li><a href="https://storia.dh.unica.it/storiedigitali/s/ludica-25-confraternite/page/welcome" target="_blank" rel="noopener noreferrer"><span>2025</span> Confraternite a Cagliari ↗</a></li><li><a href="https://storia.dh.unica.it/storiedigitali/s/ludica_2024/page/home" target="_blank" rel="noopener noreferrer"><span>2024</span> Carloforte e Sant’Antioco ↗</a></li><li><a href="https://storia.dh.unica.it/storiedigitali/s/campiestivi_santantioco_2023/page/primapagina" target="_blank" rel="noopener noreferrer"><span>2023</span> Sant’Antioco e il mare ↗</a></li><li><a href="https://storia.dh.unica.it/storiedigitali/s/campiestivi_orani_22/page/primapagina" target="_blank" rel="noopener noreferrer"><span>2022</span> Orani ↗</a></li><li><a href="https://storia.dh.unica.it/storiedigitali/s/monumenta/page/monumenta" target="_blank" rel="noopener noreferrer"><span>2021</span> Monumenta ↗</a></li><li><a href="https://storia.dh.unica.it/storiedigitali/s/campoestivo_nuraminis/page/home" target="_blank" rel="noopener noreferrer"><span>2019</span> Nuraminis e Villagreca ↗</a></li></ul><p class="lf-caption">Altri esiti e aggiornamenti sono nella raccolta Storie Digitali UniCA.</p><a class="lf-link lf-resource-link" data-lf-link="nodo_04_3" hidden="">Approfondisci ↗</a><p class="lf-caption lf-resource-pending" data-lf-pending="nodo_04_3">Approfondimento in preparazione.</p></div>
+ </details></div><a class="lf-link" href="https://storia.dh.unica.it/storiedigitali/" target="_blank" rel="noopener noreferrer">Esplora Storie Digitali UniCA ↗</a></div>
  </details></div>
  <p class="lf-shared"><span aria-hidden="true">↔</span> La comunità attraversa l’intera filiera: contribuisce alle domande, alle fonti, alle interpretazioni e alla restituzione.</p>
  <section class="lf-workflow" aria-label="Percorri la filiera"><div class="lf-flow-header"><div><p class="lf-kicker">IL LAVORO PRENDE FORMA</p><h3>Dalla domanda alla restituzione.</h3></div><button type="button" class="lf-next" hidden>Inizia il percorso →</button></div><p>Seleziona un’azione per aprire il livello collegato. I passaggi si intrecciano e possono essere ripresi durante la ricerca.</p><ol class="lf-steps"><li><button type="button" data-step="0" data-target="1" aria-pressed="false"><span>01</span>Domanda</button></li><li><button type="button" data-step="1" data-target="1" aria-pressed="false"><span>02</span>Fonti</button></li><li><button type="button" data-step="2" data-target="2" aria-pressed="false"><span>03</span>Équipe</button></li><li><button type="button" data-step="3" data-target="3" aria-pressed="false"><span>04</span>Dati</button></li><li><button type="button" data-step="4" data-target="3" aria-pressed="false"><span>05</span>Interpretazione</button></li><li><button type="button" data-step="5" data-target="4" aria-pressed="false"><span>06</span>Restituzione</button></li></ol><div class="lf-flow-copy"><p data-step-copy="0"><strong>Domanda.</strong> Formuliamo una domanda di conoscenza con la comunità e definiamo il quadro storiografico.</p><p data-step-copy="1"><strong>Fonti.</strong> Valutiamo le fonti e ne progettiamo la dematerializzazione: il passaggio dal supporto analogico al digitale.</p><p data-step-copy="2"><strong>Équipe.</strong> Applichiamo le metodiche nella Bottega e nel campo, imparando attraverso una ricerca condivisa.</p><p data-step-copy="3"><strong>Dati.</strong> Descriviamo, strutturiamo e colleghiamo gli oggetti digitali, documentando provenienza e contesto.</p><p data-step-copy="4"><strong>Interpretazione.</strong> Interroghiamo dati e mappe, confrontiamo evidenze e rendiamo espliciti i limiti delle interpretazioni.</p><p data-step-copy="5"><strong>Restituzione.</strong> Condividiamo gli esiti nell’incontro pubblico, nei Quaderni e nei portali: il dialogo può generare nuove domande.</p></div><p class="lf-loop">↻ La restituzione riapre il dialogo e può far nascere nuove domande.</p></section>
- <footer class="lf-footer"><span>Socializzare il metodo storico.</span><a href="https://storia.dh.unica.it/storiedigitali/">Esplora i portali ↗</a><a href="https://ludica.dh.unica.it/contatti/">Entra in contatto ↗</a></footer>
+ <footer class="lf-footer"><span>Socializzare il metodo storico.</span><a href="https://storia.dh.unica.it/storiedigitali/" target="_blank" rel="noopener noreferrer">Esplora i portali ↗</a><a href="https://ludica.dh.unica.it/contatti/" target="_blank" rel="noopener noreferrer">Entra in contatto ↗</a></footer>
  <p class="lf-sr" data-status role="status" aria-live="polite" aria-atomic="true"></p>
-</section></section><section class="lab-gallery wrap" id="galleria-laboratorio" aria-labelledby="titolo-galleria"><header><p class="mono">PERSONE, LUOGHI E ATTIVITÀ</p><h2 id="titolo-galleria">Galleria del laboratorio</h2><p>Immagini del lavoro condiviso, dalla Bottega digitale alle attività sul territorio.</p></header><div class="lab-gallery-grid" data-gallery-grid></div><p class="lab-gallery-empty" data-gallery-empty>Le fotografie del laboratorio saranno pubblicate qui.</p><noscript><p>Attiva JavaScript per visualizzare le fotografie configurate.</p></noscript></section></main>
+</section></section><section class="lab-gallery wrap" id="galleria-laboratorio" aria-labelledby="titolo-galleria"><header><p class="mono">PERSONE, LUOGHI E ATTIVITÀ</p><h2 id="titolo-galleria">Galleria del laboratorio</h2><p>Immagini del lavoro condiviso, dalla Bottega digitale alle attività sul territorio.</p></header><div class="lab-gallery-grid" data-gallery-grid></div><p class="lab-gallery-empty" data-gallery-empty>Le fotografie del laboratorio saranno pubblicate qui.</p><noscript><p>Attiva JavaScript per visualizzare le fotografie configurate.</p></noscript></section><section class="metro-section wrap" id="metro-ludica" aria-labelledby="titolo-metro-ludica"><header class="moment-heading"><p class="mono">IL LABORATORIO COME RETE DI AZIONI</p><h2 id="titolo-metro-ludica">La metropolitana del LUDiCa</h2><p>Esplora gli snodi e seleziona i percorsi per seguire le connessioni tra fonti, comunità e strumenti.</p></header><div id="metro-ludica-host"></div><template id="metro-ludica-template"><style>
+/* PERSONALIZZAZIONE VISIVA: colori delle singole linee in MAP_DATA.lines. */
+:host{color-scheme:light;--paper:#f4f4ee;--surface:#fff;--ink:#19343c;--muted:#5b6d73;--border:#d8e1de;--radius:20px;--font:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;--map-label:18px;--tool-label:16px}
+*{box-sizing:border-box}:host{margin:0;font:15px/1.6 var(--font);background:var(--paper);color:var(--ink)}button,input,select{font:inherit}button{cursor:pointer;color:inherit}button:focus-visible,a:focus-visible,summary:focus-visible,select:focus-visible{outline:3px solid #175dcc;outline-offset:4px}a{color:inherit;text-underline-offset:3px}[hidden]{display:none!important}.shell{width:min(1460px,calc(100% - 48px));margin:auto}.masthead{padding:21px 0;display:flex;align-items:center;justify-content:space-between;gap:20px;border-bottom:1px solid var(--border)}.brand{font-size:25px;letter-spacing:-1.3px;font-weight:900}.brand span{color:#25815f}.institution{font-size:11px;letter-spacing:.06em;text-align:right;color:var(--muted)}.hero{display:grid;grid-template-columns:1.1fr 1fr;gap:50px;padding:36px 0 27px;align-items:end}.kicker{font-size:10px;font-weight:800;letter-spacing:.15em;text-transform:uppercase;margin:0 0 10px}h1{font-size:clamp(30px,4.2vw,55px);line-height:1.08;letter-spacing:-.05em;margin:0}h1 span{color:#25815f}.intro{font-size:14px;color:var(--muted);max-width:580px;margin:0}.map-card{border:1px solid var(--border);border-radius:var(--radius);background:var(--surface);overflow:hidden;box-shadow:0 12px 40px #18313c08}.toolbar{padding:17px 22px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;gap:16px}.toolbar h2{font-size:15px;margin:0}.toolbar p{font-size:11px;color:var(--muted);margin:0}.count{font:11px ui-monospace,monospace;color:var(--muted)}.legend{display:flex;gap:7px;flex-wrap:wrap;padding:17px 22px 9px}.line-button{border:1px solid var(--border);border-radius:30px;background:white;padding:7px 11px;font-size:11px;display:flex;align-items:center;gap:7px}.line-button[aria-pressed=true]{background:#edf2ef;border-color:var(--ink);font-weight:750}.swatch{height:4px;width:19px;border-radius:5px;background:var(--line-color,var(--ink))}.map-stage{position:relative;background:#fff}.map-stage svg{display:block;width:100%;aspect-ratio:var(--map-aspect,1440/980);max-height:900px;min-height:430px;touch-action:none;user-select:none;cursor:grab}.map-stage svg.is-dragging{cursor:grabbing}.map-stage svg:focus-visible{outline:3px solid #175dcc;outline-offset:-4px}.map-controls{position:absolute;left:18px;bottom:16px;display:flex;gap:4px;padding:4px;border:1px solid var(--border);border-radius:12px;background:#fffffff0;box-shadow:0 5px 15px #15333c0c}.map-controls button{background:white;border:0;border-radius:7px;width:37px;height:35px;font-size:20px}.map-controls button:last-child{width:auto;font-size:11px;padding:0 11px}.map-controls button:hover{background:#edf2ef}.map-controls button:disabled{opacity:.3;cursor:default}.map-help{position:absolute;right:20px;bottom:20px;margin:0;color:var(--muted);font-size:10px;pointer-events:none}.district{font-family:var(--font);font-size:11px;letter-spacing:3px;font-weight:800;fill:#97aaa4}.edge-group{pointer-events:none;transition:opacity .2s}.edge-halo{stroke:#fff;stroke-width:12;fill:none;stroke-linejoin:round;stroke-linecap:round}.edge-track{stroke-width:7;fill:none;stroke-linejoin:round;stroke-linecap:round}.station{cursor:pointer;outline:none;transition:opacity .2s}.station .node{fill:white;stroke:var(--node-color,#19343c);stroke-width:3}.station .interchange{fill:white;stroke:#19343c;stroke-width:2}.station .center{fill:#19343c}.station .focus-ring{fill:none;stroke:#19343c;stroke-width:2;opacity:0}.station:hover .focus-ring,.station:focus-visible .focus-ring,.station.is-selected .focus-ring{opacity:1}.station.is-selected .focus-ring{stroke:#175dcc;stroke-width:3}.station.is-selected .center{fill:#175dcc}.station-label{font-family:var(--font);font-size:var(--map-label);font-weight:650;fill:#19343c;paint-order:stroke;stroke:#fff;stroke-width:6;stroke-linejoin:round}.is-major .station-label{font-size:24px;font-weight:850}.resource .station-label{font-size:var(--tool-label);font-weight:500;fill:#52656c}.is-dimmed{opacity:.12}.map-footer{padding:14px 22px;border-top:1px solid var(--border);background:#f7f9f6;display:flex;gap:20px;align-items:center;justify-content:space-between;flex-wrap:wrap}.symbol-key{display:flex;gap:16px;font-size:11px;color:var(--muted)}.symbol-key span{display:flex;align-items:center;gap:7px}.symbol{display:inline-block;width:11px;height:11px;border:2px solid var(--ink);border-radius:50%;background:white}.symbol.hub{box-shadow:0 0 0 2px white,0 0 0 3px var(--ink)}.map-footer label{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--muted)}select{border:1px solid var(--border);background:white;color:var(--ink);border-radius:7px;padding:7px;max-width:230px;font-size:12px}.reading{margin:12px 0 0;color:var(--muted);font-size:12px}.detail{margin:20px 0;background:#19343c;color:white;border-radius:var(--radius);padding:25px;scroll-margin-top:15px}.detail-grid{display:grid;grid-template-columns:.9fr 1.2fr 1fr;gap:27px}.detail h2{font-size:25px;letter-spacing:-.03em;line-height:1.2;margin:0 25px 12px 0}.detail p{font-size:13px;color:#d9e5e4;margin:0}.detail-kicker{font:10px ui-monospace,monospace!important;letter-spacing:.08em;margin-bottom:10px!important;color:#afc7c2!important}.detail-heading{position:relative}.close{position:absolute;right:0;top:-5px;color:white;background:none;border:1px solid #ffffff45;border-radius:50%;font-size:21px;width:29px;height:29px;line-height:1}.detail h3{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#afc7c2;margin:0 0 9px}.branch+.branch{margin-top:16px}.branch ul{padding-left:17px;margin:0;font-size:12px;color:#d9e5e4}.connections{display:flex;flex-wrap:wrap;gap:6px}.connection{border:1px solid #ffffff35;border-radius:8px;background:#ffffff09;color:white;font-size:11px;padding:6px 9px;text-align:left}.connection:hover{background:#ffffff20}.badges{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:18px}.badge{border-left:4px solid var(--line-color);border-radius:4px;padding:4px 7px;background:#ffffff0b;color:#e2eeeb;font-size:10px}.detail-link{display:block;margin-top:12px;color:#e1ed9b;font-size:12px}.detail-actions{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:20px;padding-top:15px;border-top:1px solid #ffffff25}.small-button{background:transparent;border:1px solid #ffffff45;border-radius:7px;color:white;font-size:11px;padding:7px 10px}.status{font-size:11px;color:#b9cfca}.guide{margin:26px 0 20px;border-top:1px solid var(--border);padding-top:16px;font-size:12px;color:var(--muted)}.guide summary{cursor:pointer;font-weight:700;color:var(--ink)}.guide li{margin-top:7px}code{background:#e3eae5;color:#254f43;padding:1px 4px;border-radius:3px}footer{font-size:10px;color:var(--muted);padding-bottom:25px}.error{padding:20px;color:#a53125}.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}@media(max-width:800px){.shell{width:calc(100% - 24px)}.hero{grid-template-columns:1fr;gap:18px;padding:27px 0 22px}.intro{max-width:none}.institution{font-size:9px}.toolbar,.legend,.map-footer{padding-left:15px;padding-right:15px}.count{display:none}.map-stage svg{height:64vh;min-height:460px;max-height:720px;aspect-ratio:auto}.map-help{display:none}.detail-grid{grid-template-columns:1fr;gap:23px}.detail{padding:22px}.map-footer label{width:100%;justify-content:space-between}.map-footer select{max-width:66%}.reading{font-size:11px}.detail-actions{flex-wrap:wrap}.line-button{font-size:10px;padding:7px 9px}}@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}@media print{.shell{width:100%}.map-controls,.legend,.guide,.map-footer label,.detail-actions{display:none}.map-stage svg{max-height:none;height:auto;aspect-ratio:var(--map-aspect,1440/980)}.hero{padding:20px 0}.detail{break-inside:avoid}:host{background:white}}
+
+/* VERSIONE ESSENZIALE: sfondo del documento e della mappa trasparente.
+   I cerchi delle stazioni restano bianchi; i dettagli appaiono solo al clic. */
+:host { background:transparent; }
+.shell { width:100%; max-width:none; margin:0; }
+.map-card { background:transparent; border:0; border-radius:0; box-shadow:none; }
+.legend { background:transparent; padding:10px 0 14px; }
+.line-button { background:transparent; }
+.line-button[aria-pressed="true"] { background:rgba(37,129,95,.12); }
+.map-stage { background:transparent; }
+.map-controls { background:transparent; box-shadow:none; }
+.map-controls button { background:transparent; }
+.map-controls button:hover { background:rgba(37,129,95,.12); }
+.edge-halo { stroke:transparent; }
+.station-label { stroke:transparent; stroke-width:0; }
+.detail { margin:14px 0 0; }
+@media (max-width:800px) { .shell { width:100%; } .legend { padding:8px 0; } }
+@media print { :host,.map-card,.map-stage { background:transparent; } }
+
+/* Nell'iframe evita altezze basate su vh: la misura resta indipendente
+   dall'altezza inviata a WordPress, evitando cicli di ridimensionamento. */
+html.is-embedded .map-stage svg {
+  height:auto;
+  aspect-ratio:var(--map-aspect,2400/1920);
+}
+
+
+:host{display:block;background:transparent}.shell{width:100%;margin:0}main{display:block}
+</style><div class="shell">
+<div>
+<section class="map-card" aria-label="Mappa interattiva delle azioni del laboratorio">
+<nav class="legend" id="legend" aria-label="Linee di azione"></nav>
+<div class="map-stage" id="stage"><svg id="map" viewbox="0 0 1440 980" tabindex="0" role="group" aria-labelledby="svg-title svg-description"><title id="svg-title">Rete integrata delle azioni del laboratorio</title><desc id="svg-description">Linee interconnesse, circuiti e diramazioni. I cerchi doppi sono snodi condivisi. Attiva una stazione per leggere i dettagli; usa i pulsanti per ingrandire e trascina per spostare la mappa.</desc></svg>
+<div class="map-controls" aria-label="Controlli mappa"><button id="zoom-out" type="button" aria-label="Riduci la mappa">−</button><button id="zoom-in" type="button" aria-label="Ingrandisci la mappa">+</button><button id="fit" type="button">Vista completa</button></div></div>
+</section>
+<section class="detail" id="detail" aria-labelledby="detail-title" hidden><div class="detail-grid"><div class="detail-heading"><button type="button" id="close" class="close" aria-label="Chiudi dettagli e torna allo snodo">×</button><p class="detail-kicker" id="detail-kicker"></p><h2 id="detail-title"></h2><p id="description"></p><a id="project-link" class="detail-link" hidden></a></div><div id="branches"></div><div><h3>Linee che si incontrano qui</h3><div class="badges" id="badges"></div><h3>Azioni e risorse collegate</h3><div class="connections" id="connections"></div></div></div><div class="detail-actions"><span class="status" id="status" role="status" aria-live="polite"></span><div><button id="show-node" class="small-button" type="button">Localizza nella rete</button> <button id="copy" class="small-button" type="button">Copia link allo snodo</button></div></div></section>
+<p class="sr-only" id="announcement" role="status" aria-live="polite"></p>
+</div>
+<noscript><p class="error">Attiva JavaScript per visualizzare e navigare la rete.</p></noscript>
+</div>
+</template><noscript>Attiva JavaScript per esplorare la mappa del laboratorio.</noscript></section></main>
 <footer class="page-footer"><div class="wrap"><a href="#momento-1">Torna a DH UniCa ↑</a><a href="#momento-2">Torna alla filiera ↑</a><p>Un linguaggio visivo condiviso, due modi di esplorare. I collegamenti esterni si aprono in una nuova scheda.</p></div></footer>
-</div><script>/* DH ECOSISTEMA: PERSONALIZZA QUI LABORATORI E PROGETTI.
- * Ogni livello ha un elenco "voci": ogni voce contiene laboratorio e progetto.
- * Per aggiungere una coppia duplica un oggetto di "voci", separandolo con una virgola.
- * Per rimuoverla elimina l'oggetto completo. Con "voci": [] il livello resta senza coppie.
- * Modifica titolo e url. Con url vuoto la voce rimane un testo senza collegamento.
- * Gli accostamenti sono esempi didattici di applicazione dei livelli.
- */
+</div><script>/* CONFIGURAZIONE UNICA: cerca GUIDA_MODIFICA_ECOSISTEMA nei commenti del file. */
 const DH_ECOSISTEMA = [
   {
     "id": "fonte",
@@ -489,11 +630,14 @@ const DH_ECOSISTEMA = [
       {
         "laboratorio": {
           "titolo": "Lab dematerializzazione · SCAN lab",
-          "url": "https://dh.unica.it/2321-2/scanner/"
+          "url": "https://dh.unica.it/2321-2/scanner/",
+          "scheda": "scan-lab",
+          "titoloScheda": "SCAN lab"
         },
         "progetto": {
           "titolo": "Compasso de Navegare",
-          "url": "https://storia.dh.unica.it/asmsa/it/le-traversate-nel-compasso-de-navigare"
+          "url": "https://storia.dh.unica.it/asmsa/it/le-traversate-nel-compasso-de-navigare",
+          "scheda": "archivistica"
         }
       }
     ]
@@ -504,11 +648,15 @@ const DH_ECOSISTEMA = [
       {
         "laboratorio": {
           "titolo": "SCAN lab",
-          "url": "https://dh.unica.it/2321-2/scanner/"
+          "url": "https://dh.unica.it/2321-2/scanner/",
+          "scheda": "scan-lab",
+          "titoloScheda": "SCAN lab"
         },
         "progetto": {
-          "titolo": "Il Parlamento del Regno di Sardegna",
-          "url": "https://storia.dh.unica.it/il-parlamento-del-regno-di-sardegna/"
+          "titolo": "Almanacco della Stampa",
+          "url": "http://storia.dh.unica.it/almanaccostampasarda",
+          "etichetta": "Esplora l'Almanacco della Stampa",
+          "scheda": "almanacco-stampa"
         }
       }
     ]
@@ -519,12 +667,10 @@ const DH_ECOSISTEMA = [
       {
         "laboratorio": {
           "titolo": "HTR Lab",
-          "url": "https://dh.unica.it/2321-2/htr-lab/"
+          "url": "https://dh.unica.it/2321-2/htr-lab/",
+          "scheda": "htr-lab"
         },
-        "progetto": {
-          "titolo": "Compasso de Navegare",
-          "url": "https://storia.dh.unica.it/asmsa/it/le-traversate-nel-compasso-de-navigare"
-        }
+        "progetto": null
       }
     ]
   },
@@ -532,13 +678,11 @@ const DH_ECOSISTEMA = [
     "id": "codifica",
     "voci": [
       {
-        "laboratorio": {
-          "titolo": "Linguistica · laboratorio di codifica e annotazione",
-          "url": "https://linguistica.dh.unica.it"
-        },
+        "laboratorio": null,
         "progetto": {
           "titolo": "Ordine, ragione, calcolo",
-          "url": "https://glossari.dh.unica.it/glossario-termini-ordine-calcolo-ragione-italia"
+          "url": "https://glossari.dh.unica.it/glossario-termini-ordine-calcolo-ragione-italia",
+          "scheda": "ordine-ragione-calcolo"
         }
       }
     ]
@@ -549,11 +693,35 @@ const DH_ECOSISTEMA = [
       {
         "laboratorio": {
           "titolo": "ORBIS² Lab",
-          "url": "https://dh.unica.it/2321-2/orbis%c2%b2-lab/"
+          "url": "https://dh.unica.it/2321-2/orbis%c2%b2-lab/",
+          "scheda": "orbis-lab"
         },
         "progetto": {
+          "titolo": "Torri mediterranee",
+          "url": "https://geonode.dh.unica.it/catalogue/#/map/567",
+          "scheda": "torri-mediterranee"
+        }
+      },
+      {
+        "laboratorio": null,
+        "progetto": {
           "titolo": "Colonizzazioni interne",
-          "url": "https://storia.dh.unica.it/colonizzazioninterne/"
+          "url": "https://geonode.dh.unica.it/catalogue/#/map/755",
+          "scheda": "colonizzazioni"
+        }
+      }
+    ]
+  },
+  {
+    "id": "visualizzazioni",
+    "voci": [
+      {
+        "laboratorio": null,
+        "progetto": {
+          "titolo": "Il Parlamento del Regno di Sardegna",
+          "url": "https://storia.dh.unica.it/122-2/",
+          "scheda": "parlamento",
+          "etichetta": "Esplora il progetto: Il Parlamento del Regno di Sardegna"
         }
       }
     ]
@@ -564,40 +732,82 @@ const DH_ECOSISTEMA = [
       {
         "laboratorio": {
           "titolo": "LUDiCa",
-          "url": "https://ludica.dh.unica.it"
+          "url": "https://ludica.dh.unica.it",
+          "scheda": "public-history-lab"
         },
         "progetto": {
           "titolo": "Monumenta",
-          "url": "https://storia.dh.unica.it/storiedigitali/s/monumenta/page/monumenta"
+          "url": "https://storia.dh.unica.it/storiedigitali/s/monumenta/page/monumenta",
+          "scheda": "monumenta"
         }
       }
     ]
   }
 ];
+
+/* Altri riscontri conservati indipendentemente dai livelli. */
+const DH_ALTRI_RISCONTRI = [
+  {
+    "scheda": "asmsa",
+    "titolo": "Atlante digitale di storia marittima",
+    "descrizione": "ASMSA è il portale dedicato alla storia marittima del Regno di Sardegna e alle sue connessioni mediterranee.",
+    "url": "https://storia.dh.unica.it/asmsa/"
+  },
+  {
+    "scheda": "arcipelago-corsaro",
+    "titolo": "Arcipelago Corsaro",
+    "descrizione": "Un percorso nell’Atlante digitale di storia marittima (ASMSA), richiamato come esempio di pubblicazione e consultazione della ricerca.",
+    "url": "https://storia.dh.unica.it/asmsa/it/arcipelago-corsaro"
+  }
+];
+
 (() => {
- function safeURL(value) {
-  if (typeof value !== 'string' || !value.trim()) return null;
-  try { const u=new URL(value,document.baseURI);return ['http:','https:'].includes(u.protocol)?u.href:null;}catch{return null;}
+ function safeURL(value){if(typeof value!=='string'||!value.trim())return null;try{const u=new URL(value,document.baseURI);return ['https:','http:'].includes(u.protocol)?u.href:null}catch{return null}}
+ function titleLink(item,project=false){
+  const url=safeURL(item.url),a=document.createElement(url?'a':'span');
+  a.textContent=project?(item.etichetta||'Esplora il progetto: '+item.titolo):item.titolo;
+  if(url){a.href=url;a.target='_blank';a.rel='noopener noreferrer'}return a;
  }
- function addEntry(parent,label,item) {
+ function addEntry(parent,label,item,project){
+  if(!item)return;
   const box=document.createElement('section');box.className='dh-pair-entry';
-  const heading=document.createElement('p');heading.className='mono dh-entry-label';heading.textContent=label;
-  box.append(heading);
-  const url=safeURL(item?.url);
-  const title=document.createElement(url?'a':'span');title.className='dh-entry-title';
-  title.textContent=(label==='02 / PROGETTO DI APPLICAZIONE'?'Esplora il progetto: ':'')+(item?.titolo||'Contenuto da definire');
-  if(url){title.href=url;title.target='_blank';title.rel='noopener noreferrer';}
-  box.append(title);parent.append(box);
+  const p=document.createElement('p');p.className='mono dh-entry-label';p.textContent=label;
+  const title=titleLink(item,project);title.className='dh-entry-title';box.append(p,title);parent.append(box);
  }
- function boot() {
+ function syncCatalogue(panels){
+  const grid=document.querySelector('[data-dh-catalogo]');if(!grid)return;
+  const names=new Map(panels.map(p=>[p.dataset.dhStep,p.querySelector('summary strong')?.textContent||p.dataset.dhStep]));
+  const records=new Map();
+  DH_ECOSISTEMA.forEach(level=>(level.voci||[]).forEach(pair=>['laboratorio','progetto'].forEach(kind=>{
+   const item=pair[kind];if(!item)return;
+   if(!item.scheda||!/^[a-z0-9][a-z0-9-]*$/.test(item.scheda))return;
+   if(!records.has(item.scheda))records.set(item.scheda,{...item,kind,livelli:[]});
+   const r=records.get(item.scheda);if(!r.livelli.includes(level.id))r.livelli.push(level.id);
+  })));
+  DH_ALTRI_RISCONTRI.forEach(item=>{if(!records.has(item.scheda))records.set(item.scheda,{...item,kind:'progetto',livelli:[]})});
+  const cards=[];
+  [...records.values()].forEach((item,index)=>{
+   const id='progetto-'+item.scheda,card=document.getElementById(id)||document.createElement('article');
+   card.id=id;card.className='dh-project';card.dataset.project=item.scheda;card.tabIndex=-1;card.replaceChildren();
+   const number=document.createElement('p');number.className='mono project-index';number.textContent='DH / '+String(index+1).padStart(2,'0');
+   const h=document.createElement('h3');h.textContent=item.titoloScheda||item.titolo;
+   const p=document.createElement('p');p.textContent=item.descrizione||((item.kind==='laboratorio'?'Laboratorio associato ai livelli: ':'Progetto di applicazione dei livelli: ')+item.livelli.map(i=>names.get(i)||i).join(', ')+'.');
+   const link=titleLink(item);link.className='project-open';link.textContent=item.etichetta||(item.kind==='laboratorio'?'Apri il laboratorio ↗':'Apri il progetto ↗');
+   card.append(number,h,p,link);
+   if(item.livelli.length){const nav=document.createElement('div');nav.className='project-related';item.livelli.forEach(key=>{const a=document.createElement('a');a.href='#dh-livello-'+key;a.textContent='Livello '+(names.get(key)||key)+' ↑';nav.append(a)});card.append(nav)}
+   cards.push(card);
+  });grid.replaceChildren(...cards);
+ }
+ function boot(){
+  const panels=[...document.querySelectorAll('[data-dh-step]')];
   DH_ECOSISTEMA.forEach(level=>{
-   const panel=[...document.querySelectorAll('[data-dh-step]')].find(p=>p.dataset.dhStep===level.id);
-   if(!panel)return;const body=panel.querySelector('div');if(!body)return;
+   const panel=panels.find(p=>p.dataset.dhStep===level.id);if(!panel)return;
+   const body=panel.querySelector('div');if(!body)return;
    body.querySelectorAll('[data-dh-pairs]').forEach(n=>n.remove());
    const group=document.createElement('div');group.className='dh-level-pairs';group.setAttribute('data-dh-pairs','');
-   (level.voci||[]).forEach(pair=>{const row=document.createElement('div');row.className='dh-lab-project';addEntry(row,'01 / LABORATORIO',pair.laboratorio);addEntry(row,'02 / PROGETTO DI APPLICAZIONE',pair.progetto);group.append(row)});
+   (level.voci||[]).forEach(pair=>{if(!pair.laboratorio&&!pair.progetto)return;const row=document.createElement('div');row.className='dh-lab-project';addEntry(row,'01 / LABORATORIO',pair.laboratorio,false);addEntry(row,'02 / PROGETTO DI APPLICAZIONE',pair.progetto,true);group.append(row)});
    body.append(group);
-  });
+  });syncCatalogue(panels);
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
 })();
@@ -821,7 +1031,7 @@ const DH_ECOSISTEMA = [
         try {
           const url = new URL(value, document.baseURI);
           if (['https:', 'http:'].includes(url.protocol)) {
-            link.href = url.href;
+            link.href = url.href;link.target = '_blank';link.rel = 'noopener noreferrer';
             link.hidden = false;
             valid = true;
           }
@@ -1010,5 +1220,1803 @@ const IMMAGINI_GALLERIA = [
   if(document.fonts)document.fonts.ready.then(sendHeight);sendHeight();
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
+})();
+</script><script>/* MAPPA METRO: il contenuto è nello stesso file, isolato per evitare conflitti CSS e ID. */
+(() => {
+ function mountMetro(){
+  const host=document.getElementById('metro-ludica-host');
+  const template=document.getElementById('metro-ludica-template');
+  if(!host||!template||host.shadowRoot)return;
+  const metroRoot=host.attachShadow({mode:'open'});
+  metroRoot.append(template.content.cloneNode(true));
+  (() => {
+
+'use strict';
+/* DATI MODIFICABILI. Un ID condiviso rappresenta uno scambio effettivo.
+   routes: gli ID identificano snodi; [x,y] serve solo a piegare una linea.
+   Per collegare un progetto aggiungi url e linkLabel a un nodo.
+   x/y sono coordinate della cartina, non una sequenza di fasi. */
+const MAP_DATA = {
+  "width": 2400,
+  "height": 1920,
+  "districts": [],
+  "nodes": [
+    {
+      "id": "tema",
+      "title": "Domande di ricerca",
+      "description": "Definire domande storiche e obiettivi che si rinnovano nel confronto con le fonti e con la comunità.",
+      "branches": [
+        {
+          "title": "Azioni metodologiche",
+          "items": [
+            "Definire la domanda di ricerca",
+            "Delimitare il contesto e gli obiettivi"
+          ]
+        },
+        {
+          "title": "Attori e risultato",
+          "items": [
+            "Docenti e studenti",
+            "Un problema storico da esplorare insieme"
+          ]
+        }
+      ],
+      "x": 180,
+      "y": 180,
+      "label": [
+        "Domande di ricerca"
+      ],
+      "labelDx": 0,
+      "labelDy": 32,
+      "labelAnchor": "middle",
+      "kind": "action"
+    },
+    {
+      "id": "bibliografia",
+      "title": "Bibliografie",
+      "description": "Raccogliere e organizzare riferimenti bibliografici, collegando la ricerca alle biblioteche e alle risorse del territorio.",
+      "branches": [
+        {
+          "title": "Gestione bibliografica",
+          "items": [
+            "Raccolta e descrizione dei riferimenti",
+            "Organizzazione e condivisione con Zotero"
+          ]
+        }
+      ],
+      "x": 500,
+      "y": 180,
+      "label": [
+        "Bibliografie"
+      ],
+      "labelDx": 0,
+      "labelDy": 32,
+      "labelAnchor": "middle",
+      "kind": "action"
+    },
+    {
+      "id": "documenti",
+      "title": "Fonti documentarie",
+      "description": "Le fonti documentarie alimentano due percorsi distinti: descrizione e pubblicazione con Omeka S, oppure analisi di mappe e cartografie storiche. Selezionando questo snodo si evidenzia il percorso documentario fino alla restituzione pubblica e a Storie digitali.",
+      "branches": [
+        {
+          "title": "Documento singolo",
+          "items": [
+            "Descrizione diretta in Omeka S"
+          ]
+        },
+        {
+          "title": "Decine o centinaia di documenti",
+          "items": [
+            "Metadatazione in un foglio di calcolo",
+            "Importazione dei dati strutturati in Omeka S"
+          ]
+        },
+        {
+          "title": "Restituzione e interpretazione",
+          "items": [
+            "Omeka S → Restituzione pubblica → Storie digitali",
+            "Problematizzazione con il supporto dei formatori",
+            "Percorso distinto per mappe e cartografie storiche"
+          ]
+        }
+      ],
+      "x": 850,
+      "y": 180,
+      "label": [
+        "Fonti documentarie"
+      ],
+      "labelDx": 0,
+      "labelDy": 32,
+      "labelAnchor": "middle",
+      "kind": "action",
+      "focusLine": "documentaire"
+    },
+    {
+      "id": "trascrizione",
+      "title": "Trascrizione delle fonti",
+      "description": "Leggere, trascrivere e verificare i testi delle fonti con il supporto di Tropy, Transkribus e AI locale.",
+      "branches": [
+        {
+          "title": "Strumenti collegati",
+          "items": [
+            "Tropy",
+            "Transkribus",
+            "AI locale",
+            "LibreOffice"
+          ]
+        },
+        {
+          "title": "Controllo critico",
+          "items": [
+            "Verificare le trascrizioni rispetto alle fonti",
+            "Documentare scelte e incertezze"
+          ]
+        }
+      ],
+      "x": 1200,
+      "y": 180,
+      "label": [
+        "Trascrizione",
+        "delle fonti"
+      ],
+      "labelDx": 0,
+      "labelDy": 32,
+      "labelAnchor": "middle",
+      "kind": "action"
+    },
+    {
+      "id": "classificazione",
+      "title": "Classificazione",
+      "description": "Descrivere e organizzare le fonti per renderle reperibili e metterle in relazione attraverso metadati condivisi.",
+      "branches": [
+        {
+          "title": "Operazioni",
+          "items": [
+            "Definire attributi e relazioni",
+            "Organizzare le fonti in connessione con Omeka S"
+          ]
+        }
+      ],
+      "x": 1500,
+      "y": 760,
+      "label": [
+        "Classificazione"
+      ],
+      "labelDx": 0,
+      "labelDy": -30,
+      "labelAnchor": "middle",
+      "kind": "action"
+    },
+    {
+      "id": "cartografia",
+      "title": "Cartografia digitale",
+      "description": "La cartografia digitale deriva dal lavoro in QGIS sulle mappe storiche e sui big data cartografici. Il percorso prosegue verso GeoNode.",
+      "branches": [
+        {
+          "title": "Percorso geografico",
+          "items": [
+            "Mappe storiche e big data → QGIS",
+            "QGIS → Cartografia digitale → GeoNode"
+          ]
+        }
+      ],
+      "x": 2050,
+      "y": 1100,
+      "label": [
+        "Cartografia",
+        "digitale"
+      ],
+      "labelDx": 0,
+      "labelDy": 32,
+      "labelAnchor": "middle",
+      "kind": "action"
+    },
+    {
+      "id": "campo-base",
+      "title": "Città / paese / quartiere",
+      "description": "Il laboratorio opera in una città, un paese o un quartiere, con una base operativa che sostiene il lavoro insieme alla comunità.",
+      "branches": [
+        {
+          "title": "Contesto di lavoro",
+          "items": [
+            "Città / paese / quartiere",
+            "Base operativa",
+            "Relazione quotidiana con la comunità"
+          ]
+        }
+      ],
+      "x": 100,
+      "y": 1000,
+      "label": [
+        "Città / paese",
+        "/ quartiere",
+        "Base operativa"
+      ],
+      "labelDx": 0,
+      "labelDy": 32,
+      "labelAnchor": "middle",
+      "kind": "action"
+    },
+    {
+      "id": "comunita",
+      "title": "Comunità",
+      "description": "La comunità co-costruisce la ricerca condividendo testimonianze, patrimoni documentari, materiali e conoscenze del territorio.",
+      "branches": [
+        {
+          "title": "Fonti e pratiche condivise",
+          "items": [
+            "Interviste e fotografie storiche",
+            "Archivi locali pubblici e privati",
+            "Biblioteche locali",
+            "Geoesplorazione del territorio",
+            "Opere d’arte, architettura e spazi urbani"
+          ]
+        },
+        {
+          "title": "Integrazione nella ricerca",
+          "items": [
+            "Descrizione e collegamento delle fonti in Omeka S",
+            "Organizzazione delle bibliografie con Zotero"
+          ]
+        }
+      ],
+      "x": 300,
+      "y": 1000,
+      "label": [
+        "Comunità"
+      ],
+      "labelDx": 0,
+      "labelDy": -30,
+      "labelAnchor": "middle",
+      "kind": "action"
+    },
+    {
+      "id": "dematerializzazione",
+      "title": "Dematerializzazione",
+      "description": "Passaggio di supporto da analogico a digitale per le fonti provenienti sia dagli archivi pubblici sia dagli archivi privati. Entrambi sono collegati direttamente a questo snodo, che porta allo scanner.",
+      "branches": [
+        {
+          "title": "Provenienza delle fonti",
+          "items": [
+            "Archivi pubblici",
+            "Archivi privati"
+          ]
+        },
+        {
+          "title": "Acquisizione",
+          "items": [
+            "Scanner LUDiCa",
+            "Conservazione del riferimento alla fonte e al suo contesto"
+          ]
+        }
+      ],
+      "x": 650,
+      "y": 380,
+      "label": [
+        "Dematerializzazione",
+        "delle fonti"
+      ],
+      "labelDx": 0,
+      "labelDy": 32,
+      "labelAnchor": "middle",
+      "kind": "action"
+    },
+    {
+      "id": "metadatazione",
+      "title": "Metadatazione delle fonti",
+      "description": "Definire e verificare i metadati delle fonti. Un documento può essere descritto direttamente in Omeka S; per decine o centinaia di documenti si organizza il lavoro in un foglio di calcolo da importare in Omeka S. La descrizione alimenta anche la problematizzazione.",
+      "branches": [
+        {
+          "title": "Due modalità di lavoro",
+          "items": [
+            "Descrizione diretta in Omeka S per un singolo documento",
+            "Foglio di calcolo per la metadatazione di numerosi documenti",
+            "Importazione del foglio in Omeka S"
+          ]
+        },
+        {
+          "title": "Dalla descrizione alle domande",
+          "items": [
+            "Problematizzazione",
+            "Confronto tra studenti e formatori"
+          ]
+        }
+      ],
+      "x": 1000,
+      "y": 380,
+      "label": [
+        "Metadatazione",
+        "delle fonti"
+      ],
+      "labelDx": 0,
+      "labelDy": 32,
+      "labelAnchor": "middle",
+      "kind": "action"
+    },
+    {
+      "id": "storie-digitali",
+      "title": "Storie digitali",
+      "description": "Esito della restituzione pubblica: rende consultabile il racconto storico attraverso fonti organizzate in Omeka S, bibliografie in Zotero e materiali geografici in GeoNode.",
+      "branches": [
+        {
+          "title": "Origine del percorso",
+          "items": [
+            "Fonti documentarie → Omeka S → Restituzione pubblica → Storie digitali"
+          ]
+        },
+        {
+          "title": "Risorse collegate",
+          "items": [
+            "Bibliografie con Zotero",
+            "Dati geografici con GeoNode",
+            "Pubblicazione web con WordPress"
+          ]
+        }
+      ],
+      "x": 1600,
+      "y": 1800,
+      "label": [
+        "Storie digitali"
+      ],
+      "labelDx": 0,
+      "labelDy": 32,
+      "labelAnchor": "middle",
+      "kind": "action"
+    },
+    {
+      "id": "restituzione",
+      "title": "Restituzione pubblica",
+      "description": "Snodo principale della condivisione pubblica: riceve il lavoro sulle fonti organizzato in Omeka S e si dirama nei Quaderni del LUDiCa, in Storie digitali e nella Serata di restituzione comunitaria.",
+      "branches": [
+        {
+          "title": "Tre forme di restituzione",
+          "items": [
+            "Quaderni del LUDiCa → Unica Press",
+            "Storie digitali",
+            "Serata di restituzione comunitaria"
+          ]
+        },
+        {
+          "title": "Ricerca condivisa",
+          "items": [
+            "Fonti e database da Omeka S",
+            "Dialogo con la comunità",
+            "Nuove domande di ricerca"
+          ]
+        }
+      ],
+      "x": 1300,
+      "y": 1600,
+      "label": [
+        "Restituzione pubblica"
+      ],
+      "labelDx": 0,
+      "labelDy": -49,
+      "labelAnchor": "middle",
+      "kind": "action",
+      "radius": 27,
+      "major": true
+    },
+    {
+      "id": "geoesplorazione",
+      "title": "Geoesplorazione del territorio",
+      "x": 850,
+      "y": 1080,
+      "label": [
+        "Geoesplorazione",
+        "del territorio"
+      ],
+      "kind": "action",
+      "labelDx": 0,
+      "labelDy": -40,
+      "labelAnchor": "middle",
+      "description": "Esplorare il territorio con la comunità, documentando luoghi, tracce e conoscenze.",
+      "branches": [
+        {
+          "title": "Connessioni nella rete",
+          "items": [
+            "Contributi e conoscenze della comunità",
+            "Descrizione e organizzazione in Omeka S"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "interviste",
+      "title": "Interviste",
+      "x": 850,
+      "y": 600,
+      "label": [
+        "Interviste"
+      ],
+      "kind": "action",
+      "labelDx": 0,
+      "labelDy": -22,
+      "labelAnchor": "middle",
+      "description": "Raccogliere e contestualizzare testimonianze orali in dialogo con la comunità.",
+      "branches": [
+        {
+          "title": "Connessioni nella rete",
+          "items": [
+            "Contributi e conoscenze della comunità",
+            "Descrizione e organizzazione in Omeka S"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "nuove-domande",
+      "title": "Nuove domande",
+      "x": 500,
+      "y": 1750,
+      "label": [
+        "Nuove domande"
+      ],
+      "kind": "action",
+      "labelDx": 0,
+      "labelDy": 32,
+      "labelAnchor": "middle",
+      "description": "I risultati e il dialogo pubblico alimentano nuove questioni e riportano la ricerca al confronto con il territorio.",
+      "branches": []
+    },
+    {
+      "id": "biblioteche",
+      "title": "Biblioteche",
+      "x": 200,
+      "y": 60,
+      "label": [
+        "Biblioteche"
+      ],
+      "kind": "resource",
+      "labelDx": 0,
+      "labelDy": -25,
+      "labelAnchor": "middle",
+      "description": "Biblioteche: risorsa a supporto delle attività integrate del laboratorio.",
+      "branches": []
+    },
+    {
+      "id": "zotero",
+      "title": "Zotero",
+      "x": 500,
+      "y": 60,
+      "label": [
+        "Zotero"
+      ],
+      "kind": "resource",
+      "labelDx": 0,
+      "labelDy": -25,
+      "labelAnchor": "middle",
+      "description": "Raccogliere, descrivere e organizzare le bibliografie; collegare i riferimenti alla restituzione in Storie digitali.",
+      "branches": []
+    },
+    {
+      "id": "archivi-pubblici",
+      "title": "Archivi pubblici",
+      "x": 450,
+      "y": 300,
+      "label": [
+        "Archivi pubblici"
+      ],
+      "kind": "resource",
+      "labelDx": 0,
+      "labelDy": -25,
+      "labelAnchor": "middle",
+      "description": "Fonti conservate negli archivi pubblici: la dematerializzazione riguarda anche questi materiali.",
+      "branches": [
+        {
+          "title": "Azioni collegate",
+          "items": [
+            "Ricerca sulle fonti documentarie",
+            "Dematerializzazione delle fonti"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "archivi-privati",
+      "title": "Archivi privati",
+      "x": 450,
+      "y": 460,
+      "label": [
+        "Archivi privati"
+      ],
+      "kind": "resource",
+      "labelDx": 0,
+      "labelDy": 32,
+      "labelAnchor": "middle",
+      "description": "Fonti conservate negli archivi privati, collegate alla dematerializzazione insieme a quelle degli archivi pubblici.",
+      "branches": []
+    },
+    {
+      "id": "tropy",
+      "title": "Tropy",
+      "x": 1200,
+      "y": 60,
+      "label": [
+        "Tropy"
+      ],
+      "kind": "resource",
+      "labelDx": 0,
+      "labelDy": -25,
+      "labelAnchor": "middle",
+      "description": "Tropy: risorsa a supporto delle attività integrate del laboratorio.",
+      "branches": []
+    },
+    {
+      "id": "libreoffice",
+      "title": "LibreOffice",
+      "x": 1850,
+      "y": 180,
+      "label": [
+        "LibreOffice"
+      ],
+      "kind": "resource",
+      "labelDx": 0,
+      "labelDy": -25,
+      "labelAnchor": "middle",
+      "description": "LibreOffice: risorsa a supporto delle attività integrate del laboratorio.",
+      "branches": []
+    },
+    {
+      "id": "scanner",
+      "title": "Scanner LUDiCa",
+      "x": 650,
+      "y": 500,
+      "label": [
+        "Scanner LUDiCa"
+      ],
+      "kind": "resource",
+      "labelDx": 0,
+      "labelDy": -25,
+      "labelAnchor": "middle",
+      "description": "Acquisire riproduzioni digitali delle fonti analogiche, nel processo di dematerializzazione.",
+      "branches": []
+    },
+    {
+      "id": "qgis",
+      "title": "QGIS",
+      "x": 2050,
+      "y": 950,
+      "label": [
+        "QGIS"
+      ],
+      "kind": "resource",
+      "labelDx": 0,
+      "labelDy": 32,
+      "labelAnchor": "middle",
+      "description": "Punto di convergenza di mappe e cartografie storiche e big data cartografici. Da QGIS si sviluppa la cartografia digitale.",
+      "branches": [
+        {
+          "title": "Due ingressi",
+          "items": [
+            "Mappe e cartografie storiche",
+            "Big data cartografici"
+          ]
+        },
+        {
+          "title": "Elaborazione e condivisione",
+          "items": [
+            "Cartografia digitale",
+            "GeoNode → DOG e Storie digitali"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "geonode",
+      "title": "GeoNode",
+      "x": 2050,
+      "y": 1280,
+      "label": [
+        "GeoNode"
+      ],
+      "kind": "resource",
+      "labelDx": 0,
+      "labelDy": 32,
+      "labelAnchor": "middle",
+      "description": "Nodo di condivisione della cartografia digitale: da GeoNode si diramano il collegamento a DOG e quello a Storie digitali.",
+      "branches": [
+        {
+          "title": "Ingresso",
+          "items": [
+            "Cartografia digitale da QGIS"
+          ]
+        },
+        {
+          "title": "Due diramazioni",
+          "items": [
+            "DOG",
+            "Storie digitali"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wordpress",
+      "title": "WordPress",
+      "x": 1850,
+      "y": 1800,
+      "label": [
+        "WordPress"
+      ],
+      "kind": "resource",
+      "labelDx": 0,
+      "labelDy": 32,
+      "labelAnchor": "middle",
+      "description": "WordPress: risorsa a supporto delle attività integrate del laboratorio.",
+      "branches": []
+    },
+    {
+      "id": "omeka-s",
+      "title": "Omeka S",
+      "x": 1300,
+      "y": 1000,
+      "label": [
+        "Omeka S"
+      ],
+      "kind": "resource",
+      "labelDx": 24,
+      "labelDy": 5,
+      "labelAnchor": "start",
+      "description": "Punto di organizzazione delle fonti e dei database: descrizione diretta per un singolo documento, importazione di metadati da foglio di calcolo per raccolte numerose. I database si collegano al versionamento in Zenodo e alimentano la restituzione pubblica.",
+      "branches": [
+        {
+          "title": "Due modalità di ingresso",
+          "items": [
+            "Descrizione diretta del singolo documento",
+            "Importazione dei metadati dal foglio di calcolo"
+          ]
+        },
+        {
+          "title": "Versionamento e restituzione",
+          "items": [
+            "Database e versioni successive in Zenodo",
+            "Restituzione pubblica → Storie digitali"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "quaderni",
+      "branches": [
+        {
+          "title": "Filiera editoriale",
+          "items": [
+            "Restituzione pubblica",
+            "Quaderni del LUDiCa",
+            "Unica Press"
+          ]
+        }
+      ],
+      "kind": "action",
+      "title": "Quaderni del LUDiCa",
+      "x": 1000,
+      "y": 1800,
+      "label": [
+        "Quaderni del LUDiCa"
+      ],
+      "labelDx": 0,
+      "labelDy": 32,
+      "labelAnchor": "middle",
+      "description": "Pubblicazioni e riflessioni del laboratorio che derivano dalla restituzione pubblica e si collegano a Unica Press."
+    },
+    {
+      "id": "transkribus",
+      "branches": [],
+      "kind": "resource",
+      "title": "Transkribus",
+      "x": 1460,
+      "y": 60,
+      "label": [
+        "Transkribus"
+      ],
+      "labelDx": 0,
+      "labelDy": -25,
+      "labelAnchor": "middle",
+      "description": "Strumento di supporto alla trascrizione, con verifica critica dei risultati sulle fonti."
+    },
+    {
+      "id": "ai-locale",
+      "branches": [],
+      "kind": "resource",
+      "title": "AI locale",
+      "x": 1720,
+      "y": 60,
+      "label": [
+        "AI locale"
+      ],
+      "labelDx": 0,
+      "labelDy": -25,
+      "labelAnchor": "middle",
+      "description": "Supporto alla trascrizione attraverso strumenti di intelligenza artificiale eseguiti localmente; i risultati richiedono controllo critico."
+    },
+    {
+      "id": "fotografie-storiche",
+      "branches": [
+        {
+          "title": "Connessioni nella rete",
+          "items": [
+            "Contributi e conoscenze della comunità",
+            "Descrizione e organizzazione in Omeka S"
+          ]
+        }
+      ],
+      "kind": "action",
+      "title": "Fotografie storiche",
+      "x": 850,
+      "y": 720,
+      "label": [
+        "Fotografie storiche"
+      ],
+      "labelDx": 0,
+      "labelDy": -22,
+      "labelAnchor": "middle",
+      "description": "Raccogliere, descrivere e contestualizzare le fotografie storiche condivise dalla comunità."
+    },
+    {
+      "id": "archivi-locali",
+      "branches": [
+        {
+          "title": "Connessioni nella rete",
+          "items": [
+            "Contributi e conoscenze della comunità",
+            "Descrizione e organizzazione in Omeka S"
+          ]
+        }
+      ],
+      "kind": "action",
+      "title": "Archivi locali (pubblici e privati)",
+      "x": 850,
+      "y": 840,
+      "label": [
+        "Archivi locali",
+        "(pubblici e privati)"
+      ],
+      "labelDx": 0,
+      "labelDy": -40,
+      "labelAnchor": "middle",
+      "description": "Individuare e descrivere materiali di archivi locali pubblici e privati."
+    },
+    {
+      "id": "biblioteche-locali",
+      "branches": [
+        {
+          "title": "Connessioni nella rete",
+          "items": [
+            "Contributi e conoscenze della comunità",
+            "Descrizione e organizzazione in Omeka S",
+            "Bibliografie in Zotero"
+          ]
+        }
+      ],
+      "kind": "action",
+      "title": "Biblioteche locali",
+      "x": 850,
+      "y": 960,
+      "label": [
+        "Biblioteche locali"
+      ],
+      "labelDx": 0,
+      "labelDy": -22,
+      "labelAnchor": "middle",
+      "description": "Raccogliere fonti e riferimenti nelle biblioteche locali, descrivere i materiali in Omeka S e organizzare le bibliografie con Zotero."
+    },
+    {
+      "id": "opere-arte",
+      "branches": [
+        {
+          "title": "Connessioni nella rete",
+          "items": [
+            "Contributi e conoscenze della comunità",
+            "Descrizione e organizzazione in Omeka S"
+          ]
+        }
+      ],
+      "kind": "action",
+      "title": "Opere d’arte",
+      "x": 850,
+      "y": 1200,
+      "label": [
+        "Opere d’arte"
+      ],
+      "labelDx": 0,
+      "labelDy": -22,
+      "labelAnchor": "middle",
+      "description": "Riconoscere, documentare e descrivere le opere d’arte come fonti per la ricerca."
+    },
+    {
+      "id": "architettura",
+      "branches": [
+        {
+          "title": "Connessioni nella rete",
+          "items": [
+            "Contributi e conoscenze della comunità",
+            "Descrizione e organizzazione in Omeka S"
+          ]
+        }
+      ],
+      "kind": "action",
+      "title": "Architettura",
+      "x": 850,
+      "y": 1320,
+      "label": [
+        "Architettura"
+      ],
+      "labelDx": 0,
+      "labelDy": -22,
+      "labelAnchor": "middle",
+      "description": "Documentare edifici e testimonianze architettoniche, collegando forme, usi e contesti storici."
+    },
+    {
+      "id": "spazi-urbani",
+      "branches": [
+        {
+          "title": "Connessioni nella rete",
+          "items": [
+            "Contributi e conoscenze della comunità",
+            "Descrizione e organizzazione in Omeka S"
+          ]
+        }
+      ],
+      "kind": "action",
+      "title": "Spazi urbani",
+      "x": 850,
+      "y": 1440,
+      "label": [
+        "Spazi urbani"
+      ],
+      "labelDx": 0,
+      "labelDy": -22,
+      "labelAnchor": "middle",
+      "description": "Indagare spazi urbani, trasformazioni e memorie attraverso fonti e conoscenze della comunità."
+    },
+    {
+      "id": "mappe-storiche",
+      "title": "Mappe e cartografie storiche",
+      "x": 1850,
+      "y": 800,
+      "description": "Mappe e cartografie storiche sono fonti documentarie. Il loro percorso confluisce in QGIS, dove incontra i big data cartografici, per produrre cartografia digitale.",
+      "label": [
+        "Mappe e cartografie",
+        "storiche"
+      ],
+      "kind": "action",
+      "labelDx": 0,
+      "labelDy": 32,
+      "labelAnchor": "middle",
+      "branches": [],
+      "focusLine": "cartografica"
+    },
+    {
+      "id": "big-data-cartografici",
+      "title": "Big data cartografici",
+      "x": 2250,
+      "y": 800,
+      "description": "Dati cartografici che confluiscono in QGIS insieme alle mappe e cartografie storiche.",
+      "label": [
+        "Big data",
+        "cartografici"
+      ],
+      "kind": "action",
+      "labelDx": 0,
+      "labelDy": 32,
+      "labelAnchor": "middle",
+      "branches": []
+    },
+    {
+      "id": "foglio-calcolo",
+      "title": "Foglio di calcolo",
+      "x": 1200,
+      "y": 600,
+      "description": "Per decine o centinaia di documenti, organizzare le descrizioni in righe e colonne prima di importarle in Omeka S.",
+      "label": [
+        "Foglio di calcolo"
+      ],
+      "kind": "resource",
+      "labelDx": 0,
+      "labelDy": 32,
+      "labelAnchor": "middle",
+      "branches": [
+        {
+          "title": "Quando usarlo",
+          "items": [
+            "Metadatazione di numerosi documenti",
+            "Controllo della coerenza di campi e valori",
+            "Importazione delle descrizioni in Omeka S"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "zenodo",
+      "title": "Zenodo",
+      "x": 1500,
+      "y": 1280,
+      "description": "Destinazione dei database prodotti e delle loro versioni successive, collegate al database organizzato in Omeka S.",
+      "label": [
+        "Zenodo"
+      ],
+      "kind": "resource",
+      "labelDx": 0,
+      "labelDy": 32,
+      "labelAnchor": "middle",
+      "branches": [
+        {
+          "title": "Versionamento dei database",
+          "items": [
+            "Deposito dei database prodotti",
+            "Nuove versioni man mano che il lavoro procede",
+            "Tracciabilità delle successive restituzioni dei dati"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unica-press",
+      "title": "Unica Press",
+      "x": 750,
+      "y": 1800,
+      "description": "Nodo editoriale connesso ai Quaderni del LUDiCa.",
+      "label": [
+        "Unica Press"
+      ],
+      "kind": "resource",
+      "labelDx": 0,
+      "labelDy": 32,
+      "labelAnchor": "middle",
+      "branches": []
+    },
+    {
+      "id": "problematizzazione",
+      "title": "Problematizzazione",
+      "x": 1850,
+      "y": 380,
+      "description": "Studenti e formatori trasformano la descrizione delle fonti in questioni storiche e interpretazioni, confrontando problemi, contesti e scelte metodologiche.",
+      "label": [
+        "Problematizzazione"
+      ],
+      "kind": "action",
+      "labelDx": 0,
+      "labelDy": 32,
+      "labelAnchor": "middle",
+      "branches": [
+        {
+          "title": "Accompagnamento degli studenti",
+          "items": [
+            "Dalla metadatazione alle domande storiche",
+            "Discussione e verifica delle interpretazioni"
+          ]
+        },
+        {
+          "title": "Formatori del laboratorio",
+          "items": [
+            "AIPH",
+            "AISO",
+            "AIDUCD",
+            "DH UNICA"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "aiph",
+      "title": "AIPH",
+      "x": 1550,
+      "y": 560,
+      "description": "Formatori del laboratorio collegati al confronto con gli studenti nella problematizzazione e nell’interpretazione delle fonti.",
+      "label": [
+        "AIPH"
+      ],
+      "kind": "resource",
+      "labelDx": 0,
+      "labelDy": 32,
+      "labelAnchor": "middle",
+      "branches": []
+    },
+    {
+      "id": "aiso",
+      "title": "AISO",
+      "x": 1770,
+      "y": 560,
+      "description": "Formatori del laboratorio collegati al confronto con gli studenti nella problematizzazione e nell’interpretazione delle fonti.",
+      "label": [
+        "AISO"
+      ],
+      "kind": "resource",
+      "labelDx": 0,
+      "labelDy": 32,
+      "labelAnchor": "middle",
+      "branches": []
+    },
+    {
+      "id": "aiducd",
+      "title": "AIDUCD",
+      "x": 1990,
+      "y": 560,
+      "description": "Formatori del laboratorio collegati al confronto con gli studenti nella problematizzazione e nell’interpretazione delle fonti.",
+      "label": [
+        "AIDUCD"
+      ],
+      "kind": "resource",
+      "labelDx": 0,
+      "labelDy": 32,
+      "labelAnchor": "middle",
+      "branches": []
+    },
+    {
+      "id": "dh-unica",
+      "title": "DH UNICA",
+      "x": 2210,
+      "y": 560,
+      "description": "Formatori del laboratorio collegati al confronto con gli studenti nella problematizzazione e nell’interpretazione delle fonti.",
+      "label": [
+        "DH UNICA"
+      ],
+      "kind": "resource",
+      "labelDx": 0,
+      "labelDy": 32,
+      "labelAnchor": "middle",
+      "branches": []
+    },
+    {
+      "id": "dog",
+      "title": "DOG",
+      "x": 2250,
+      "y": 1460,
+      "description": "Nodo DOG connesso a GeoNode nel percorso della cartografia digitale.",
+      "label": [
+        "DOG"
+      ],
+      "kind": "action",
+      "labelDx": 0,
+      "labelDy": 32,
+      "labelAnchor": "middle",
+      "branches": []
+    },
+    {
+      "id": "serata-restituzione",
+      "title": "Serata di restituzione comunitaria",
+      "x": 1300,
+      "y": 1850,
+      "description": "Occasione di incontro pubblico con la comunità per condividere la ricerca, discuterne i risultati e raccogliere nuovi contributi.",
+      "label": [
+        "Serata di restituzione",
+        "comunitaria"
+      ],
+      "kind": "action",
+      "labelDx": 0,
+      "labelDy": 32,
+      "labelAnchor": "middle",
+      "branches": []
+    }
+  ],
+  "lines": [
+    {
+      "id": "metodo",
+      "name": "Ricerca e metodo",
+      "color": "#25815f",
+      "routes": [
+        [
+          "tema",
+          "bibliografia",
+          "documenti"
+        ],
+        [
+          "nuove-domande",
+          [
+            100,
+            1350
+          ],
+          "campo-base",
+          [
+            100,
+            240
+          ],
+          [
+            120,
+            240
+          ],
+          "tema"
+        ],
+        [
+          "restituzione",
+          [
+            1150,
+            1750
+          ],
+          "nuove-domande"
+        ]
+      ]
+    },
+    {
+      "id": "dati",
+      "name": "Bibliografie e Zotero",
+      "color": "#cd9700",
+      "routes": [
+        [
+          "biblioteche",
+          "zotero",
+          "bibliografia"
+        ],
+        [
+          "biblioteche-locali",
+          [
+            760,
+            870
+          ],
+          [
+            570,
+            870
+          ],
+          [
+            460,
+            760
+          ],
+          [
+            460,
+            100
+          ],
+          "zotero"
+        ],
+        [
+          "storie-digitali",
+          [
+            1560,
+            1760
+          ],
+          [
+            1560,
+            700
+          ],
+          [
+            1520,
+            660
+          ],
+          [
+            540,
+            660
+          ],
+          [
+            540,
+            100
+          ],
+          "zotero"
+        ]
+      ]
+    },
+    {
+      "id": "trascrizione",
+      "name": "Acquisizione e trascrizione",
+      "color": "#d64b43",
+      "routes": [
+        [
+          "archivi-pubblici",
+          [
+            730,
+            300
+          ],
+          "documenti"
+        ],
+        [
+          "archivi-pubblici",
+          [
+            570,
+            300
+          ],
+          "dematerializzazione"
+        ],
+        [
+          "archivi-privati",
+          [
+            570,
+            460
+          ],
+          "dematerializzazione"
+        ],
+        [
+          "documenti",
+          "dematerializzazione",
+          "scanner"
+        ],
+        [
+          "documenti",
+          "trascrizione",
+          "tropy"
+        ],
+        [
+          "trascrizione",
+          [
+            1340,
+            180
+          ],
+          "transkribus"
+        ],
+        [
+          "trascrizione",
+          [
+            1300,
+            280
+          ],
+          [
+            1500,
+            280
+          ],
+          "ai-locale"
+        ],
+        [
+          "trascrizione",
+          [
+            1740,
+            180
+          ],
+          "libreoffice"
+        ]
+      ]
+    },
+    {
+      "id": "classificazione",
+      "name": "Fonti, metadati e Omeka S",
+      "color": "#8855b0",
+      "routes": [
+        [
+          "interviste",
+          [
+            900,
+            600
+          ],
+          "omeka-s"
+        ],
+        [
+          "fotografie-storiche",
+          [
+            1020,
+            720
+          ],
+          "omeka-s"
+        ],
+        [
+          "archivi-locali",
+          [
+            1140,
+            840
+          ],
+          "omeka-s"
+        ],
+        [
+          "biblioteche-locali",
+          [
+            1260,
+            960
+          ],
+          "omeka-s"
+        ],
+        [
+          "geoesplorazione",
+          [
+            1220,
+            1080
+          ],
+          "omeka-s"
+        ],
+        [
+          "opere-arte",
+          [
+            1100,
+            1200
+          ],
+          "omeka-s"
+        ],
+        [
+          "architettura",
+          [
+            980,
+            1320
+          ],
+          "omeka-s"
+        ],
+        [
+          "spazi-urbani",
+          [
+            860,
+            1440
+          ],
+          "omeka-s"
+        ],
+        [
+          "metadatazione",
+          [
+            1120,
+            500
+          ],
+          [
+            1380,
+            500
+          ],
+          [
+            1380,
+            920
+          ],
+          "omeka-s"
+        ],
+        [
+          "metadatazione",
+          [
+            1120,
+            500
+          ],
+          [
+            1240,
+            500
+          ],
+          "classificazione"
+        ],
+        [
+          "omeka-s",
+          [
+            1500,
+            1200
+          ],
+          "zenodo"
+        ]
+      ]
+    },
+    {
+      "id": "pubblico",
+      "name": "Comunità e tipologie di fonte",
+      "color": "#0096b6",
+      "routes": [
+        [
+          "campo-base",
+          "comunita"
+        ],
+        [
+          "comunita",
+          [
+            450,
+            1000
+          ],
+          "interviste"
+        ],
+        [
+          "comunita",
+          [
+            570,
+            1000
+          ],
+          "fotografie-storiche"
+        ],
+        [
+          "comunita",
+          [
+            690,
+            1000
+          ],
+          "archivi-locali"
+        ],
+        [
+          "comunita",
+          [
+            810,
+            1000
+          ],
+          "biblioteche-locali"
+        ],
+        [
+          "comunita",
+          [
+            770,
+            1000
+          ],
+          "geoesplorazione"
+        ],
+        [
+          "comunita",
+          [
+            650,
+            1000
+          ],
+          "opere-arte"
+        ],
+        [
+          "comunita",
+          [
+            530,
+            1000
+          ],
+          "architettura"
+        ],
+        [
+          "comunita",
+          [
+            410,
+            1000
+          ],
+          "spazi-urbani"
+        ]
+      ]
+    },
+    {
+      "id": "restituzione",
+      "name": "Restituzione e pubblicazioni",
+      "color": "#234a83",
+      "routes": [
+        [
+          "omeka-s",
+          "restituzione"
+        ],
+        [
+          "restituzione",
+          [
+            1100,
+            1800
+          ],
+          "quaderni",
+          "unica-press"
+        ],
+        [
+          "restituzione",
+          [
+            1500,
+            1800
+          ],
+          "storie-digitali"
+        ],
+        [
+          "restituzione",
+          "serata-restituzione"
+        ],
+        [
+          "geonode",
+          [
+            2050,
+            1500
+          ],
+          [
+            1750,
+            1800
+          ],
+          "storie-digitali"
+        ],
+        [
+          "storie-digitali",
+          "wordpress"
+        ]
+      ]
+    },
+    {
+      "id": "cartografica",
+      "name": "Mappe e dati cartografici",
+      "color": "#177d8b",
+      "routes": [
+        [
+          "documenti",
+          [
+            930,
+            100
+          ],
+          [
+            930,
+            30
+          ],
+          [
+            2290,
+            30
+          ],
+          [
+            2350,
+            90
+          ],
+          [
+            2350,
+            660
+          ],
+          [
+            2290,
+            720
+          ],
+          [
+            1930,
+            720
+          ],
+          "mappe-storiche",
+          [
+            1900,
+            800
+          ],
+          "qgis",
+          "cartografia",
+          "geonode"
+        ],
+        [
+          "big-data-cartografici",
+          [
+            2200,
+            800
+          ],
+          "qgis"
+        ],
+        [
+          "geonode",
+          [
+            2070,
+            1280
+          ],
+          "dog"
+        ],
+        [
+          "geonode",
+          [
+            2050,
+            1500
+          ],
+          [
+            1750,
+            1800
+          ],
+          "storie-digitali"
+        ]
+      ]
+    },
+    {
+      "id": "formazione",
+      "name": "Problematizzazione e formatori",
+      "color": "#b2783c",
+      "routes": [
+        [
+          "metadatazione",
+          "problematizzazione",
+          [
+            1670,
+            380
+          ],
+          [
+            1670,
+            440
+          ],
+          "aiph"
+        ],
+        [
+          "problematizzazione",
+          [
+            1770,
+            460
+          ],
+          "aiso"
+        ],
+        [
+          "problematizzazione",
+          [
+            1990,
+            520
+          ],
+          "aiducd"
+        ],
+        [
+          "problematizzazione",
+          [
+            2030,
+            380
+          ],
+          "dh-unica"
+        ]
+      ]
+    },
+    {
+      "id": "documentaire",
+      "name": "Fonti documentarie → restituzione",
+      "color": "#c34e60",
+      "routes": [
+        [
+          "documenti",
+          [
+            1070,
+            400
+          ],
+          [
+            1070,
+            770
+          ],
+          "omeka-s",
+          "restituzione",
+          [
+            1500,
+            1800
+          ],
+          "storie-digitali"
+        ],
+        [
+          "documenti",
+          [
+            850,
+            230
+          ],
+          "metadatazione",
+          [
+            1120,
+            500
+          ],
+          [
+            1380,
+            500
+          ],
+          [
+            1380,
+            920
+          ],
+          "omeka-s"
+        ],
+        [
+          "metadatazione",
+          [
+            1000,
+            600
+          ],
+          "foglio-calcolo",
+          [
+            1380,
+            780
+          ],
+          [
+            1380,
+            920
+          ],
+          "omeka-s"
+        ],
+        [
+          "restituzione",
+          [
+            1100,
+            1800
+          ],
+          "quaderni",
+          "unica-press"
+        ],
+        [
+          "omeka-s",
+          [
+            1500,
+            1200
+          ],
+          "zenodo"
+        ],
+        [
+          "restituzione",
+          "serata-restituzione"
+        ]
+      ]
+    }
+  ]
+};
+
+/* MOTORE DELLA RETE: separato dai dati e senza dipendenze. */
+(() => {
+const $=id=>metroRoot.getElementById(id), NS='http://www.w3.org/2000/svg';
+const S={node:null,line:null,nodes:new Map(),members:new Map(),adjacent:new Map(),segments:[],graphics:new Map(),view:null,drag:null,suppressClick:false};
+const make=(tag,cls,text)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(text!==undefined)e.textContent=text;return e};
+const svg=(tag,attrs={})=>{const e=document.createElementNS(NS,tag);Object.entries(attrs).forEach(([k,v])=>e.setAttribute(k,String(v)));return e};
+function validate(d){
+ if(!Number.isFinite(d.width)||!Number.isFinite(d.height)||d.width<=0||d.height<=0)throw Error('Dimensioni mappa non valide.');
+ for(const k of ['nodes','lines']){if(!Array.isArray(d[k])||!d[k].length)throw Error(`Mancano i dati: ${k}`);const ids=new Set();d[k].forEach(n=>{if(!n||!/^[a-z][a-z0-9-]*$/.test(n.id)||ids.has(n.id))throw Error(`ID non valido o duplicato: ${n?.id}`);ids.add(n.id)})}
+ const ids=new Set(d.nodes.map(n=>n.id));
+ d.nodes.forEach(n=>{if(typeof n.title!=='string'||typeof n.description!=='string'||![n.x,n.y].every(Number.isFinite)||n.x<0||n.y<0||n.x>d.width||n.y>d.height)throw Error(`Nodo non valido: ${n.id}`);if(n.branches!==undefined&&(!Array.isArray(n.branches)||n.branches.some(b=>!b||typeof b.title!=='string'||!Array.isArray(b.items)||b.items.some(i=>typeof i!=='string'))))throw Error(`Dettagli non validi: ${n.id}`)});
+ d.nodes.forEach(n=>{if(n.focusLine&&!d.lines.some(l=>l.id===n.focusLine))throw Error(`Linea di evidenziazione inesistente per ${n.id}`)});
+ d.lines.forEach(l=>{if(!/^#[a-f0-9]{6}$/i.test(l.color)||typeof l.name!=='string'||!Array.isArray(l.routes)||!l.routes.length)throw Error(`Linea non valida: ${l.id}`);l.routes.forEach(r=>{if(!Array.isArray(r)||r.length<2||typeof r[0]!=='string'||typeof r.at(-1)!=='string'||r.filter(p=>typeof p==='string').length<2)throw Error(`Percorso non valido: ${l.id}`);r.forEach(p=>{if(typeof p==='string'?!ids.has(p):!Array.isArray(p)||p.length!==2||!p.every(Number.isFinite))throw Error(`Riferimento o curva non valido nella linea ${l.id}: ${p}`)})})});
+ const served=new Set(d.lines.flatMap(l=>l.routes.flat().filter(p=>typeof p==='string')));d.nodes.forEach(n=>{if(!served.has(n.id))throw Error(`Lo snodo ${n.id} non è collegato a una linea.`)});
+}
+function buildGraph(d){
+ const nodes=new Map(d.nodes.map(n=>[n.id,n])),members=new Map(d.nodes.map(n=>[n.id,new Set()])),adjacent=new Map(d.nodes.map(n=>[n.id,new Set()])),segments=[];
+ d.lines.forEach(line=>line.routes.forEach(route=>{
+  let from=null,points=[];
+  route.forEach(ref=>{
+   if(Array.isArray(ref)){points.push({x:ref[0],y:ref[1]});return}
+   const n=nodes.get(ref);members.get(ref).add(line.id);points.push({x:n.x,y:n.y});
+   if(from!==null){segments.push({line:line.id,color:line.color,from,to:ref,points:[...points]});adjacent.get(from).add(ref);adjacent.get(ref).add(from)}
+   from=ref;points=[{x:n.x,y:n.y}];
+  });
+ }));return{nodes,members,adjacent,segments};
+}
+function metroPath(input,radius=10){
+ const points=input.filter((p,i)=>!i||p.x!==input[i-1].x||p.y!==input[i-1].y);
+ if(!points.length)return '';
+ let d=`M ${points[0].x} ${points[0].y}`;
+ for(let i=1;i<points.length-1;i++){
+  const a=points[i-1],p=points[i],b=points[i+1],la=Math.hypot(p.x-a.x,p.y-a.y),lb=Math.hypot(b.x-p.x,b.y-p.y);
+  const r=Math.min(radius,la/2,lb/2),u={x:(p.x-a.x)/la,y:(p.y-a.y)/la},v={x:(b.x-p.x)/lb,y:(b.y-p.y)/lb};
+  if(Math.abs(u.x*v.y-u.y*v.x)<1e-8){d+=` L ${p.x} ${p.y}`;continue;}
+  d+=` L ${p.x-u.x*r} ${p.y-u.y*r} Q ${p.x} ${p.y} ${p.x+v.x*r} ${p.y+v.y*r}`;
+ }
+ if(points.length>1){const p=points.at(-1);d+=` L ${p.x} ${p.y}`;}return d;
+}
+function drawNetwork(){
+ const root=$('map');root.style.setProperty('--map-aspect',`${MAP_DATA.width}/${MAP_DATA.height}`);root.setAttribute('viewBox',`0 0 ${MAP_DATA.width} ${MAP_DATA.height}`);
+ const districts=svg('g',{'aria-hidden':'true'});
+ (MAP_DATA.districts||[]).forEach(d=>{
+  districts.append(svg('rect',{x:d.x,y:d.y,width:d.w,height:d.h,rx:45,fill:'#f1f5f1'}));
+  const text=svg('text',{x:d.tx,y:d.ty,class:'district'});text.textContent=d.title;districts.append(text);
+ });
+ root.append(districts);
+ const tracks=svg('g',{'aria-hidden':'true'});
+ S.segments.forEach(seg=>{
+  const d=metroPath(seg.points),g=svg('g',{class:'edge-group'});
+  g.append(svg('path',{d,class:'edge-halo'}),svg('path',{d,class:'edge-track',stroke:seg.color}));tracks.append(g);seg.element=g;
+ });root.append(tracks);
+ const stations=svg('g');
+ MAP_DATA.nodes.forEach(n=>{
+  const membership=[...S.members.get(n.id)],shared=membership.length>1||S.adjacent.get(n.id).size>2,color=MAP_DATA.lines.find(l=>l.id===membership[0])?.color||'#19343c';
+  const g=svg('g',{class:`station ${n.major?'is-major ':''}${n.kind==='resource'?'resource':'action'}`,transform:`translate(${n.x} ${n.y})`,tabindex:0,role:'button','aria-controls':'detail','aria-expanded':'false','aria-label':`${n.title}. ${shared?'Snodo condiviso. ':''}Linee: ${membership.map(id=>MAP_DATA.lines.find(l=>l.id===id).name).join(', ')}`});
+  g.style.setProperty('--node-color',color);
+  const title=svg('title');title.textContent=`${n.title} — ${n.description}`;
+  const radius=Number.isFinite(n.radius)?Math.max(9,Math.min(40,n.radius)):(shared?13:(n.kind==='resource'?7:9));
+  g.append(title,svg('circle',{r:Math.max(24,radius+7),fill:'transparent'}),svg('circle',{r:radius+7,class:'focus-ring'}));
+  if(shared)g.append(svg('circle',{r:radius,class:'interchange'}),svg('circle',{r:radius*.62,class:'interchange'}),svg('circle',{r:Math.max(3,radius*.2),class:'center'}));
+  else g.append(svg('circle',{r:radius,class:'node'}));
+  const text=svg('text',{class:'station-label','text-anchor':n.labelAnchor||'middle','aria-hidden':'true'});
+  (n.label||[n.title]).forEach((part,index)=>{const t=svg('tspan',{x:n.labelDx??0,y:(n.labelDy??30)+index*18});t.textContent=part;text.append(t)});g.append(text);
+  g.addEventListener('click',()=>{if(!S.suppressClick)selectNode(S.node===n.id?null:n.id)});
+  g.addEventListener('keydown',e=>{
+   if(e.key==='Enter'||e.key===' '){e.preventDefault();selectNode(S.node===n.id?null:n.id)}
+   else if(['ArrowRight','ArrowLeft','ArrowUp','ArrowDown'].includes(e.key)){e.preventDefault();e.stopPropagation();moveFocus(n,e.key)}
+  });stations.append(g);S.graphics.set(n.id,g);
+
+ });root.append(stations);
+ const all=make('button','line-button','Tutta la rete');all.type='button';all.dataset.line='';all.addEventListener('click',()=>selectLine(null));$('legend').append(all);
+ MAP_DATA.lines.forEach(l=>{const b=make('button','line-button');b.type='button';b.dataset.line=l.id;b.style.setProperty('--line-color',l.color);const sw=make('span','swatch');sw.setAttribute('aria-hidden','true');b.append(sw,document.createTextNode(l.name));b.addEventListener('click',()=>selectLine(S.line===l.id?null:l.id));$('legend').append(b)});
+ applyHighlight();
+}
+function applyHighlight(){
+ const focusLine=S.node?S.nodes.get(S.node).focusLine:null;
+ const line=focusLine||S.line,near=S.node?S.adjacent.get(S.node):null;
+ S.segments.forEach(e=>{const on=line?e.line===line:S.node?e.from===S.node||e.to===S.node:true;e.element.classList.toggle('is-dimmed',!on)});
+ S.graphics.forEach((g,id)=>{const on=line?S.members.get(id).has(line):S.node?id===S.node||near.has(id):true;g.classList.toggle('is-dimmed',!on);g.classList.toggle('is-selected',id===S.node);g.setAttribute('aria-expanded',String(id===S.node))});
+ $('legend').querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String((b.dataset.line||null)===(line||null)&&(!S.node||!!focusLine))));
+}
+
+function changeHash(id){try{const u=new URL(location.href);u.hash=id?`snodo-${id}`:'';history.replaceState(null,'',u)}catch{}}
+function selectLine(id){S.line=id;S.node=null;$('detail').hidden=true;changeHash(null);applyHighlight();$('announcement').textContent=id?`Linea evidenziata: ${MAP_DATA.lines.find(l=>l.id===id).name}`:'Tutta la rete visibile';}
+function safeURL(value){if(!value)return null;try{const u=new URL(value,location.href);return ['https:','http:'].includes(u.protocol)||String(value).startsWith('#')?u.href:null}catch{return null}}
+function selectNode(id,{hash=true,scroll=true}={}){
+ const n=S.nodes.get(id);S.node=n?n.id:null;S.line=null;$('detail').hidden=!n;if(hash)changeHash(S.node);applyHighlight();if(!n)return;
+ $('detail-kicker').textContent=(S.members.get(id).size>1||S.adjacent.get(id).size>2)?'SNODO CONDIVISO / AZIONI INTEGRATE':n.kind==='resource'?'RISORSA / STRUMENTO':'AZIONE DEL LABORATORIO';
+ $('detail-title').textContent=n.title;$('description').textContent=n.description;$('branches').replaceChildren();
+ const branches=n.branches?.length?n.branches:[{title:'Funzione nella rete',items:['Questo elemento partecipa alle connessioni evidenziate nella cartina.','Esplora gli snodi collegati per vedere come si integra nelle azioni del laboratorio.']}];
+ branches.forEach(b=>{const a=make('article','branch'),ul=make('ul');b.items.forEach(i=>ul.append(make('li','',i)));a.append(make('h3','',b.title),ul);$('branches').append(a)});
+ $('badges').replaceChildren();[...S.members.get(id)].forEach(key=>{const l=MAP_DATA.lines.find(l=>l.id===key),b=make('span','badge',l.name);b.style.setProperty('--line-color',l.color);$('badges').append(b)});
+ $('connections').replaceChildren();S.adjacent.get(id).forEach(key=>{const b=make('button','connection',S.nodes.get(key).title);b.type='button';b.addEventListener('click',()=>{selectNode(key,{scroll:false});$('show-node').focus()});$('connections').append(b)});
+ const url=safeURL(n.url);$('project-link').hidden=!url;if(url){$('project-link').href=url;$('project-link').target='_blank';$('project-link').rel='noopener noreferrer';$('project-link').textContent=n.linkLabel||'Esplora il progetto ↗'}else $('project-link').removeAttribute('href');
+ $('status').textContent=`${S.adjacent.get(id).size} connessioni dirette · ${S.members.get(id).size} linee`;$('announcement').textContent=`${n.title}: ${n.focusLine?'percorso completo fino alla restituzione evidenziato':'connessioni evidenziate'} e dettagli aperti dopo la mappa.`;
+ if(scroll)$('detail').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'instant':'smooth',block:'nearest'});
+}
+function moveFocus(n,key){
+ const [dx,dy]=({ArrowRight:[1,0],ArrowLeft:[-1,0],ArrowDown:[0,1],ArrowUp:[0,-1]})[key];
+ const target=MAP_DATA.nodes.filter(p=>(p.x-n.x)*dx+(p.y-n.y)*dy>1).sort((a,b)=>{
+  const score=p=>Math.hypot(p.x-n.x,p.y-n.y)+2*Math.abs((p.x-n.x)*dy-(p.y-n.y)*dx);return score(a)-score(b)
+ })[0];if(target){S.graphics.get(target.id).focus();ensureVisible(target)}
+}
+/* Zoom e trascinamento modificano solo il viewBox: nessuna perdita di topologia. */
+function setView(v){S.view=v;$('map').setAttribute('viewBox',`${v.x} ${v.y} ${v.w} ${v.h}`);const scale=MAP_DATA.width/v.w;$('zoom-in').disabled=scale>=3.99;$('zoom-out').disabled=scale<=1.001;}
+function fit(){setView({x:0,y:0,w:MAP_DATA.width,h:MAP_DATA.height})}
+function zoom(factor){const v=S.view,scale=Math.min(4,Math.max(1,MAP_DATA.width/v.w*factor)),w=MAP_DATA.width/scale,h=MAP_DATA.height/scale;setView({x:v.x+(v.w-w)/2,y:v.y+(v.h-h)/2,w,h})}
+function ensureVisible(n){const v=S.view;if(n.x<v.x+40||n.x>v.x+v.w-40||n.y<v.y+40||n.y>v.y+v.h-40)setView({...v,x:n.x-v.w/2,y:n.y-v.h/2})}
+function mapPoint(clientX,clientY){const matrix=$('map').getScreenCTM();if(!matrix)return null;const p=$('map').createSVGPoint();p.x=clientX;p.y=clientY;return p.matrixTransform(matrix.inverse())}
+function bindNavigation(){
+ $('zoom-in').addEventListener('click',()=>zoom(1.4));$('zoom-out').addEventListener('click',()=>zoom(1/1.4));$('fit').addEventListener('click',fit);
+ $('map').addEventListener('pointerdown',e=>{if(e.button!==0||S.drag)return;const p=mapPoint(e.clientX,e.clientY);if(p)S.drag={id:e.pointerId,clientX:e.clientX,clientY:e.clientY,p,view:{...S.view},moved:false}});
+ window.addEventListener('pointermove',e=>{const d=S.drag;if(!d||d.id!==e.pointerId)return;if(Math.hypot(e.clientX-d.clientX,e.clientY-d.clientY)>5)d.moved=true;if(!d.moved)return;const p=mapPoint(e.clientX,e.clientY);if(!p)return;const v=S.view;setView({...v,x:v.x+d.p.x-p.x,y:v.y+d.p.y-p.y});$('map').classList.add('is-dragging')});
+ const finish=e=>{if(!S.drag||S.drag.id!==e.pointerId)return;S.suppressClick=S.drag.moved;S.drag=null;$('map').classList.remove('is-dragging');setTimeout(()=>{S.suppressClick=false},0)};
+ window.addEventListener('pointerup',finish);window.addEventListener('pointercancel',finish);
+ $('map').addEventListener('keydown',e=>{if(e.key==='+'||e.key==='='){e.preventDefault();zoom(1.4)}else if(e.key==='-'){e.preventDefault();zoom(1/1.4)}else if(e.key==='0'){e.preventDefault();fit()}});
+ $('close').addEventListener('click',()=>{const id=S.node;selectNode(null,{scroll:false});if(id){ensureVisible(S.nodes.get(id));S.graphics.get(id).focus()}});
+ $('show-node').addEventListener('click',()=>{if(S.node){ensureVisible(S.nodes.get(S.node));$('map').scrollIntoView({block:'center'});S.graphics.get(S.node).focus()}});
+ $('copy').addEventListener('click',async()=>{try{await navigator.clipboard.writeText(location.href);$('status').textContent='Link allo snodo copiato.'}catch{$('status').textContent='Copia l’indirizzo dalla barra del browser per condividere questo snodo.'}});
+ metroRoot.addEventListener('keydown',e=>{if(e.key==='Escape'){const id=S.node;selectLine(null);if(id)S.graphics.get(id).focus()}});
+ const readHash=()=>{const id=location.hash.slice(1).replace(/^snodo-/,'');selectNode(id,{hash:false,scroll:false})};window.addEventListener('hashchange',readHash);readHash();
+}
+try{validate(MAP_DATA);Object.assign(S,buildGraph(MAP_DATA));drawNetwork();fit();if(matchMedia('(max-width:800px)').matches)zoom(2.2);bindNavigation()}catch(e){$('stage').replaceChildren(make('p','error',`Impossibile costruire la rete: ${e.message}`));console.error(e)}
+})();
+
+  })();
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',mountMetro,{once:true});else mountMetro();
 })();
 </script></body></html>
